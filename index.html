@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Rent Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #150e4b;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .search-bar {
+            text-align: center;
+            margin: 20px;
+        }
+        .search-bar input {
+            width: 50%;
+            padding: 10px;
+        }
+        .property-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .property-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+        .property-card:hover {
+            transform: scale(1.05);
+        }
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .property-info {
+            padding: 15px;
+        }
+        .view-more {
+            background-color: yellow;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="./src/pages/login.html">Login</a>
+            <a href="./src/pages/register.html">Register</a>
+            <a href="#">Shortlist</a>
+        </div>
+        <button class="view-more">Post Property Free</button>
+    </div>
+    <h1 style="text-align: center;">House Rent Platform</h1>
+    <div class="search-bar">
+        <input type="text" placeholder="Search by location...">
+    </div>
+    <div class="property-container" id="property-list">
+        <!-- Dynamic property cards will be added here -->
+    </div>
+    <script>
+        const properties = [
+            { image: "https://via.placeholder.com/300x200", title: "Modern Apartment", price: "$1200/month", location: "New York" },
+            { image: "https://via.placeholder.com/300x200", title: "Cozy Studio", price: "$800/month", location: "Los Angeles" },
+            { image: "https://via.placeholder.com/300x200", title: "Spacious Villa", price: "$2500/month", location: "Miami" }
+        ];
+
+        const propertyList = document.getElementById("property-list");
+
+        properties.forEach(property => {
+            const card = document.createElement("div");
+            card.classList.add("property-card");
+            card.innerHTML = `
+                <img src="${property.image}" alt="${property.title}">
+                <div class="property-info">
+                    <h3>${property.title}</h3>
+                    <p>${property.price}</p>
+                    <p>${property.location}</p>
+                    <button class="view-more">View More</button>
+                </div>
+            `;
+            propertyList.appendChild(card);
+        });
+    </script>
+</body>
+</html>
