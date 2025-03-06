@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Rental Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        select, input, button {
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .property {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+        .property h3 {
+            margin: 0;
+            color: #0077cc;
+        }
+        .property p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .property button {
+            padding: 8px 15px;
+            background-color: #0077cc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .property button:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Home Rental Platform</h1>
+
+    <!-- Dropdown for Rent/Buy -->
+    <label for="propertyType">Choose:</label>
+    <select id="propertyType" onchange="loadContent()">
+        <option value="rent">Rent</option>
+        <option value="buy">Buy</option>
+    </select>
+
+    <!-- Search bar -->
+    <input type="text" placeholder="Enter Locality / Project / Society / Landmark">
+    <button>🔍 Search</button>
+
+    <!-- Content section -->
+    <div id="content"></div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadContent(); // Load rent properties by default
+        });
+
+        function loadContent() {
+            const propertyType = document.getElementById("propertyType").value;
+            const content = document.getElementById("content");
+            
+            content.style.opacity = "0"; // Animation start
+
+            setTimeout(() => {
+                if (propertyType === "rent") {
+                    content.innerHTML = `
+                        <h2>Properties for Rent</h2>
+                        <div class="property">
+                            <h3>Saibaba Home Rent</h3>
+                            <p>4 Bedroom House for rent</p>
+                            <p>₹39,999 /month</p>
+                            <p>⭐ 4.7 (40 Reviews)</p>
+                            <button>Book Now</button>
+                            <button>Contact</button>
+                        </div>
+                        <div class="property">
+                            <h3>Bhavani Home Rent</h3>
+                            <p>3 Bedroom House for rent</p>
+                            <p>₹29,999 /month</p>
+                            <p>⭐ 4.5 (29 Reviews)</p>
+                            <button>Book Now</button>
+                            <button>Contact</button>
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `
+                        <h2>Properties for Sale</h2>
+                        <div class="property">
+                            <h3>Sunshine Villa</h3>
+                            <p>5 Bedroom House for sale</p>
+                            <p>₹80 Lacs</p>
+                            <p>⭐ 4.9 (55 Reviews)</p>
+                            <button>Contact</button>
+                        </div>
+                        <div class="property">
+                            <h3>Greenfield Apartment</h3>
+                            <p>2 Bedroom Apartment for sale</p>
+                            <p>₹50 Lacs</p>
+                            <p>⭐ 4.6 (30 Reviews)</p>
+                            <button>Contact</button>
+                        </div>
+                    `;
+                }
+                
+                content.style.opacity = "1"; // Animation end
+                content.style.transform = "translateY(0)";
+            }, 300); // Smooth transition effect
+        }
+    </script>
+
+</body>
+</html>
