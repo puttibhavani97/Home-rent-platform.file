@@ -4,190 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Property for Free</title>
+    <title>Post Property - House Rent Platform</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* CSS Code */
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            text-align: center;
-        }
-
-        header {
-            background-color: #0056a3;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 24px;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            flex-wrap: wrap;
-        }
-
-        .left-section {
-            width: 50%;
             padding: 20px;
         }
 
-        .left-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .left-section li {
-            padding: 10px 0;
-            font-size: 18px;
-        }
-
-        .highlight {
-            color: #eb3838;
-            font-weight: bold;
-        }
-
-        .right-section {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
+        header h1 {
             text-align: center;
-        }
-
-        .right-section h2 {
             margin-bottom: 20px;
         }
 
-        .radio-group {
-            display: flex;
-            justify-content: space-around;
-            margin: 10px 0;
-        }
-
-        input[type="text"] {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 50px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            background: #f9f9f9;
         }
 
-        button {
-            background-color: #09da41;
+        form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        form input,
+        form select,
+        form textarea,
+        form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #5cb85c;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 5px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #94e7ec;
-        }
-
-        .error {
-            color: red;
-            font-size: 14px;
-        }
-
-        /* Back to Home Button */
-        .back-home-container {
-            margin-top: 20px;
-        }
-
-        .back-home-btn {
-            background-color: #d93025;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .back-home-btn:hover {
-            background-color: #b9231b;
+        form button:hover {
+            background-color: #4cae4c;
         }
     </style>
 </head>
 
 <body>
-
     <header>
-        <h1>Post Your Property for Free</h1>
+        <h1>Post Your Property</h1>
     </header>
 
-    <div class="container">
-        <div class="left-section">
-            <h2>Post property Ad to sell or rent online for <span class="highlight">Free!</span></h2>
-            <ul>
-                <li>Get Access to 4 Lakh+ Buyers</li>
-                <li>Sell Faster with Premium Service</li>
-                <li>Get Expert Advice on Market Trends</li>
-            </ul>
-        </div>
+    <section class="form-container">
+        <form id="postPropertyForm" method="POST" action="{% url 'post_property' %}">
+            <!-- {% csrf_token %} -->
+            <label for="title">Property Title:</label>
+            <input type="text" id="title" name="title" required>
 
-        <div class="right-section">
-            <h2>Let's Get You Started</h2>
-            <form id="propertyForm">
-                <label>You are:</label>
-                <div class="radio-group">
-                    <input type="radio" name="userType" value="Owner" checked> Owner
-                    <input type="radio" name="userType" value="Agent"> Agent
-                    <input type="radio" name="userType" value="Builder"> Builder
-                </div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
 
-                <label>You are here to:</label>
-                <div class="radio-group">
-                    <input type="radio" name="listingType" value="Sell" checked> Sell
-                    <input type="radio" name="listingType" value="Rent"> Rent/Lease
-                    <input type="radio" name="listingType" value="PG"> List as PG
-                </div>
+            <label for="price">Price (in $):</label>
+            <input type="number" id="price" name="price" required>
 
-                <label>Your Contact Number:</label>
-                <input type="text" id="whatsappNumber" placeholder="WhatsApp Number" required>
-                <p id="error-message" class="error"></p>
+            <label for="Bedrooms">Bedrooms:</label>
+            <input type="number" id="Bedrooms" name="Bedrooms" required>
 
-                <button type="submit">Start Now</button>
-            </form>
-        </div>
-    </div>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
 
-    <!-- ✅ Corrected Back to Home Button -->
-    <div class="back-home-container">
-        <a href="C:\Users\Dell\OneDrive\Desktop\project 1\index.html" class="back-home-btn">← Back to Home</a>
-    </div>
+            <label for="property_type">Property Type:</label>
+            <select id="property_type" name="property_type" required>
+                <option value="rent">Rent</option>
+                <option value="buy">Buy</option>
+            </select>
+
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <button type="submit">Post Property</button>
+        </form>
+    </section>
 
     <script>
-        // JavaScript Form Validation
-        document.getElementById("propertyForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent form submission
+        document.getElementById('postPropertyForm').onsubmit = async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
 
-            var whatsappNumber = document.getElementById("whatsappNumber").value;
-            var errorMessage = document.getElementById("error-message");
+            const response = await fetch("{% url 'post_property' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                }
+            });
 
-            // Regular expression to check if number is valid
-            var phoneRegex = /^[6-9]\d{9}$/;
-
-            if (!phoneRegex.test(whatsappNumber)) {
-                errorMessage.innerText = "Please enter a valid WhatsApp number (10 digits starting with 6-9).";
+            if (response.ok) {
+                alert("Property posted successfully!");
+                this.reset();
             } else {
-                errorMessage.innerText = "";
-                alert("Property submitted successfully!");
-                this.submit(); // Submit the form if valid
+                alert("Failed to post property. Please try again.");
             }
-        });
+        }
     </script>
-
 </body>
 
 </html>

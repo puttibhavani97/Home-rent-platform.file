@@ -1,0 +1,939 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Listings</title>
+</head>
+<body>
+    <h1>Property Listings</h1>
+
+    <a href="{% url 'post_property' %}">Post Your Property</a>
+
+    {% for property in properties %}
+    <div class="card">
+        <h2>{{ property.name }}</h2>
+        <p>Location: {{ property.location }}</p>
+        <p>Price: ₹{{ property.price }}</p>
+        <p>Bedrooms: {{ property.bedrooms }}</p>
+        <p>Type: {{ property.property_type }}</p>
+    </div>
+    {% empty %}
+    <p>No properties available.</p>
+    {% endfor %}
+</body>
+</html> -->
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #fbf7ef;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0056a3;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .search-bar input {
+            border: none;
+            width: 100%;
+            outline: none;
+            padding: 5px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-post {
+            background: #fff;
+            color: #0056a3;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+
+        /* Left Sidebar */
+        .left-sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 70%;
+            height: calc(100vh - 60px);
+            background-color: #fdf6e3;
+            overflow-y: auto;
+            padding: 10px;
+            border-right: 2px solid #ccc;
+        }
+
+        .filters-container {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 10px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .applied-filters {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 20%;
+            height: calc(100vh - 60px);
+            background-color: #fdf6e3;
+            padding: 10px;
+            border-left: 2px solid #ccc;
+        }
+
+        /* Main Content */
+        .main-content {
+            position: absolute;
+            top: 60px;
+            left: 20%;
+            width: 60%;
+            height: calc(100vh - 60px);
+            background-color: #faf3e0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar {
+            width: 300px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .submenu a {
+            display: block;
+            padding: 8px 0;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .submenu a:hover {
+            color: #0073e6;
+        }
+
+        .menu-item.active+.submenu {
+            display: block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 250px;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .dropdown-menu li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .dropdown-menu li:hover {
+            color: #0056a6;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .user-actions h2,
+        .user-actions h3 {
+            margin: 0 0 10px;
+        }
+
+        .login-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* login page css code */
+
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .gbs {
+            background: #f6f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            margin: -20px 0 50px;
+        }
+
+        .sa {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .sahu {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+
+        .bgs {
+            font-size: 12px;
+        }
+
+        .aa {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
+
+        .but {
+            border-radius: 20px;
+            border: 1px solid #FF4B2B;
+            background-color: #FF4B2B;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        .but:active {
+            transform: scale(0.95);
+        }
+
+        .but:focus {
+            outline: none;
+        }
+
+        .but.hrp-ghost {
+            background-color: transparent;
+            border-color: #FFFFFF;
+        }
+
+        .sgb-form {
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            height: 100%;
+            text-align: center;
+        }
+
+        .bbss {
+            background-color: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+        }
+
+        .hrp-container {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hrp-form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .hrp-sign-in-container {
+            left: 0;
+            z-index: 2;
+        }
+
+        .hrp-container.right-panel-active .hrp-sign-in-container {
+            transform: translateX(100%);
+        }
+
+        .hrp-sign-up-container {
+            left: 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .hrp-container.right-panel-active .hrp-sign-up-container {
+            transform: translateX(-100%);
+            opacity: 1;
+            z-index: 5;
+        }
+
+        .hrp-overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .hrp-container.right-panel-active .hrp-overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .hrp-overlay {
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            color: #FFFFFF;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            display: flex;
+        }
+
+        .hrp-overlay-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            text-align: center;
+            width: 50%;
+        }
+
+        .hrp-overlay-left {
+            transform: translateX(0);
+        }
+
+        .hrp-overlay-right {
+            transform: translateX(0);
+        }
+
+        .ggbb {
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+            bottom: 0;
+            position: fixed;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">Home rental</div>
+
+        <div class="search-bar">
+            <select class="form-select" style="width: 80px;" id="propertyType" onchange="toggleListings()">
+                <option>Rent</option>
+                <option>Buy</option>
+            </select>
+            <input type="text" id="search-bar" placeholder="Enter Locality / Project / Society / Landmark">
+            <button class="btn btn-outline-primary" onclick="searchProperties()">🔍</button>
+        </div>
+
+        <div class="navbar-right">
+            <button class="btn btn-post"><a href="{% url 'post_property' %}">Property FREE</a></button>
+            <!-- Icon Container -->
+            <div class="icon-container" id="iconContainer">
+
+                <div class="icon"></div>
+                <i class="fa-solid fa-user fa-xl" style="color: #63E6BE;"></i>
+                <span>▼</span>
+            </div>
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="user-actions">
+                    <h2 class="login-btn" id="loginButton">LOGIN / REGISTER</h2>
+                    <h3>My Activity</h3>
+                    <ul>
+                        <li>Recently Searched</li>
+                        <li>Recently Viewed</li>
+                        <li>Shortlisted</li>
+                        <li>Contacted</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Left Sidebar (Filters) -->
+    <div class="left-sidebar">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="filters-container">
+                        <h5>Filters</h5>
+                        <div class="applied-filters">
+                            <strong>Applied Filters:</strong>
+                            <div id="selected-filters"></div>
+                        </div>
+
+                        <!-- Budget Filter -->
+                        <div class="filter-group">
+                            <label for="budget-range" class="form-label">Budget (Lacs)</label>
+                            <input type="range" class="form-range" id="budget-range" min="0" max="100" step="1">
+                            <p>Selected: <span id="budget-value">0</span> Lacs</p>
+                        </div>
+
+                        <!-- Bedrooms Filter -->
+                        <div class="filter-group">
+                            <label class="form-label">No. of Bedrooms</label>
+                            <select class="form-select" id="bedrooms">
+                                <option value="1 BHK">1 BHK</option>
+                                <option value="2 BHK">2 BHK</option>
+                                <option value="3 BHK">3 BHK</option>
+                                <option value="4 BHK">4 BHK</option>
+                                <option value="5 BHK">5+ BHK</option>
+                            </select>
+                        </div>
+
+                        <!-- Property Type Filter -->
+                        <div class="filter-group">
+                            <label class="form-label"><b> Type of Property</b></label>
+                            <div>
+                                <input type="checkbox" id="independent-house" value="Independent House">
+                                <label for="independent-house"> Independent House/Villa</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="apartment" value="Apartment">
+                                <label for="apartment"> Residential Apartment</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="farm-house" value="Farm House">
+                                <label for="farm-house"> Farm House/Villa</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="servicedapartment" value="Serviced_Apartment">
+                                <label for="servicedapartment"> Serviced Apartment</label>
+                            </div>
+                        </div>
+
+
+                        <!-- Available Type Filter -->
+                        <div class="filter-group">
+                            <label class="form-label"><b> Available for</b></label>
+                            <div>
+                                <input type="checkbox" id="family" value="Family">
+                                <label for="family"> Family</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="singlewomen" value="SingleWomen">
+                                <label for="singlewomen"> Residential </label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="singlemen" value="Single Men">
+                                <label for="singlemen"> Single Men</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="tenants" value="Tenants with company lease">
+                                <label for="tenants"> Tenants with company Lease</label>
+                            </div>
+                        </div>
+
+                        <!-- Apply Filters Button -->
+                        <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Content Area
+    <div class="main-content">
+        Rent Listings
+        <div class="container">
+            <h4>Properties for Rent</h4>
+            <div class="row">
+                {% for property in rent_properties %}
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ property.image_url }}" class="img-fluid rounded" alt="{{ property.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ property.name }}</h5>
+                                    <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
+                                    <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>{{ property.location }}</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+    
+            <h4>Properties for Buy</h4>
+            <div class="row">
+                {% for property in buy_properties %}
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ property.image_url }}" class="img-fluid rounded" alt="{{ property.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ property.name }}</h5>
+                                    <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
+                                    <p class="card-text"><strong>₹{{ property.price }}</strong></p>
+                                    <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>{{ property.location }}</p>
+                                    <button class="btn btn-primary">Buy Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+ -->
+
+
+
+
+
+
+
+
+    <!-- Main Content Area -->
+<div class="main-content">
+    <!-- Rent Listings -->
+    <div class="container">
+        <h4>Properties for Rent</h4>
+        <div class="row">
+            {% if rent_properties %}
+                {% for property in rent_properties %}
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ property.image_url }}" class="img-fluid rounded" alt="{{ property.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ property.name }}</h5>
+                                    <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
+                                    <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)</p>
+                                    <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No properties available for rent.</p>
+            {% endif %}
+        </div>
+
+        <!-- Buy Listings -->
+        <h4>Properties for Buy</h4>
+        <div class="row">
+            {% if buy_properties %}
+                {% for property in buy_properties %}
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ property.image_url }}" class="img-fluid rounded" alt="{{ property.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ property.name }}</h5>
+                                    <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
+                                    <p class="card-text"><strong>₹{{ property.price }}</strong></p>
+                                    <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)</p>
+                                    <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
+                                    <button class="btn btn-primary">Buy Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No properties available for buy.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+    <template id="login-form-template">
+        <div id="login-form">
+            <div class="gbs">
+                <div class="hrp-container" id="hrp-container">
+                    <div class="hrp-form-container hrp-sign-up-container">
+                        <form action="#" class="sgb-form">
+                            <h1 class="sa">Create Account</h1>
+                            <div class="hrp-social-container">
+                                <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="aa"><i class="fab fa-google-plus-g"></i></a>
+                                <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                            <span>or use your email for registration</span>
+                            <input type="text" placeholder="Name" class="bbss" />
+                            <input type="email" placeholder="Email" class="bbss" />
+                            <input type="password" placeholder="Password" class="bbss" />
+                            <button class="but">Sign Up</button>
+                        </form>
+                    </div>
+                    <div class="hrp-form-container hrp-sign-in-container">
+                        <form action="#" class="sgb-form">
+                            <h1 class="sa">Sign in</h1>
+                            <div class="hrp-social-container">
+                                <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="aa"><i class="fab fa-google-plus-g"></i></a>
+                                <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                            <span class="bgs">or use your account</span>
+                            <input type="email" placeholder="Email" class="bbss" />
+                            <input type="password" placeholder="Password" class="bbss" />
+                            <a href="#" class="aa">Forgot your password?</a>
+                            <button class="but">Sign In</button>
+                        </form>
+                    </div>
+                    <div class="hrp-overlay-container">
+                        <div class="hrp-overlay">
+                            <div class="hrp-overlay-panel hrp-overlay-left">
+                                <h1 class="sa">Welcome Back!</h1>
+                                <p class="sahu">To keep connected with us please login with your personal info</p>
+                                <button class="but hrp-ghost" id="hrp-signIn">Sign In</button>
+                            </div>
+                            <div class="hrp-overlay-panel hrp-overlay-right">
+                                <h1 class="sa">Hello, Friend!</h1>
+                                <p class="sahu">Enter your personal details and start your journey with us</p>
+                                <button class="but hrp-ghost" id="hrp-signUp">Sign Up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    </div>
+
+
+    <!-- Right Sidebar (Dealers, Buyers, etc.) -->
+    <div class="right-sidebar">
+        <div class="sidebar">
+            <h2>Explore our Services</h2>
+
+            <div class="menu-item">For Buyers</div>
+            <div class="submenu">
+                <a href="#">Buy Property</a>
+                <a href="#">Investment Advice</a>
+            </div>
+
+            <div class="menu-item">For Tenants</div>
+            <div class="submenu">
+                <a href="#">Rent Homes</a>
+                <a href="#">Short-term Rentals</a>
+            </div>
+
+            <div class="menu-item">For Owners</div>
+            <div class="submenu">
+                <a href="#">List Property</a>
+                <a href="#">Manage Tenants</a>
+            </div>
+
+            <div class="menu-item">For Dealers / Builders</div>
+            <div class="submenu">
+                <a href="#">Partner with Us</a>
+                <a href="#">Builder Services</a>
+            </div>
+            <div class="menu-item">About Us</div>
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("budget-range").addEventListener("input", function () {
+                document.getElementById("budget-value").textContent = this.value;
+            });
+
+            document.getElementById("apply-filters").addEventListener("click", function () {
+                let selectedFilters = [];
+
+                // Get budget filter
+                let budget = document.getElementById("budget-range").value;
+                if (budget > 0) selectedFilters.push("Budget: " + budget + " Lacs");
+
+                // Get bedroom filter
+                let bedrooms = document.getElementById("bedrooms").value;
+                selectedFilters.push("Bedrooms: " + bedrooms);
+
+                // Get property type filter
+                let checkboxes = document.querySelectorAll(".filter-group input[type='checkbox']:checked");
+                checkboxes.forEach(function (checkbox) {
+                    selectedFilters.push(checkbox.value);
+                });
+
+                // Display applied filters
+                let filterDisplay = document.getElementById("selected-filters");
+                let appliedFiltersDiv = document.querySelector(".applied-filters");
+
+                if (selectedFilters.length > 0) {
+                    filterDisplay.innerHTML = selectedFilters.join(", ");
+                    appliedFiltersDiv.style.display = "block";
+                } else {
+                    appliedFiltersDiv.style.display = "none";
+                }
+            });
+        });
+
+        //right slide
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        //drop down
+        document.addEventListener("DOMContentLoaded", function () {
+            const iconContainer = document.getElementById("iconContainer");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            iconContainer.addEventListener("click", function () {
+                dropdownMenu.classList.toggle("active");
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener("click", function (e) {
+                if (!iconContainer.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove("active");
+                }
+            });
+        });
+
+
+        // function toggleListings() {
+        // const propertyType = document.getElementById('propertyType').value;
+        // if (propertyType === 'rent') {
+        // document.getElementById('rent-list').classList.remove('hidden');
+        // document.getElementById('buy-list').classList.add('hidden');
+        // } else {
+        // document.getElementById('buy-list').classList.remove('hidden');
+        // document.getElementById('rent-list').classList.add('hidden');
+        // }
+        // }
+
+        // changing the rent to buy script code
+        function toggleListings() {
+            const propertyType = document.getElementById('propertyType').value.toLowerCase();
+            document.getElementById('rent-list').classList.toggle('hidden', propertyType !== 'rent');
+            document.getElementById('buy-list').classList.toggle('hidden', propertyType !== 'buy');
+        }
+
+
+
+
+        // JavaScript to show login form in main-content area
+        document.getElementById('loginButton').addEventListener('click', function () {
+            const mainContent = document.querySelector('.main-content');
+            const loginFormTemplate = document.getElementById('login-form-template').content.cloneNode(true);
+            mainContent.innerHTML = ''; // Clear existing content
+            mainContent.appendChild(loginFormTemplate); // Add login form
+        });
+
+
+        const signUpButton = document.getElementById('hrp-signUp');
+        const signInButton = document.getElementById('hrp-signIn');
+        const container = document.getElementById('hrp-container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+
+
+
+        function searchProperties() {
+            const query = document.getElementById('search-bar').value.trim().toLowerCase();
+            const propertyType = document.getElementById('propertyType').value;
+            const rentCards = document.querySelectorAll('#rent-list .card.mb-3');
+            const buyCards = document.querySelectorAll('#buy-list .card.mb-3');
+            let hasResults = false;
+
+            const cards = propertyType === 'Rent' ? rentCards : buyCards;
+
+            cards.forEach(card => {
+                const cardBody = card.querySelector('.card-body');
+                const title = cardBody.getAttribute('data-title')?.toLowerCase() || '';
+                const location = cardBody.getAttribute('data-location')?.toLowerCase() || '';
+
+                if (title.includes(query) || location.includes(query)) {
+                    card.style.display = 'flex'; // Show matching cards
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none'; // Hide non-matching cards
+                }
+            });
+
+            // Handle "No properties found" message
+            const resultContainer = propertyType === 'Rent' ? document.getElementById('rent-list') : document.getElementById('buy-list');
+            let noResultsMessage = document.getElementById('no-results');
+
+            if (!hasResults) {
+                if (!noResultsMessage) {
+                    noResultsMessage = document.createElement('p');
+                    noResultsMessage.id = 'no-results';
+                    noResultsMessage.textContent = 'No properties found.';
+                    noResultsMessage.style.textAlign = 'center';
+                    noResultsMessage.style.color = 'red';
+                    resultContainer.appendChild(noResultsMessage);
+                }
+            } else if (noResultsMessage) {
+                noResultsMessage.remove();
+            }
+        }
+
+        function toggleListings() {
+            const propertyType = document.getElementById('propertyType').value;
+            document.getElementById('rent-list').style.display = propertyType === 'Rent' ? 'block' : 'none';
+            document.getElementById('buy-list').style.display = propertyType === 'Buy' ? 'block' : 'none';
+        }
+
+    </script>
+</body>
+
+</html>

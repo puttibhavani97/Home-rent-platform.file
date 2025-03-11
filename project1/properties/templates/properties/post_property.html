@@ -1,0 +1,119 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Property</title>
+</head>
+<body>
+    <h2>Post a New Property</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>Name:</label><br>
+        <input type="text" name="name" required><br>
+        <label>Location:</label><br>
+        <input type="text" name="location" required><br>
+        <label>Price:</label><br>
+        <input type="number" name="price" required><br>
+        <label>Bedrooms:</label><br>
+        <input type="text" name="bedrooms" required><br>
+        <label>Property Type:</label><br>
+        <select name="property_type">
+            <option value="rent">Rent</option>
+            <option value="buy">Buy</option>
+        </select><br>
+        <label>Image URL:</label><br>
+        <input type="text" name="image_url" required><br>
+        <button type="submit">Post Property</button>
+    </form>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Property</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Post a New Property</h2>
+        <form method="post" >
+            <!-- enctype="multipart/form-data" -->
+            {% csrf_token %}
+            <label>Name:</label>
+            <input type="text" name="name" required>
+
+            <label>Location:</label>
+            <input type="text" name="location" required>
+
+            <label>Price:</label>
+            <input type="number" name="price" required>
+
+            <label>Bedrooms:</label>
+            <input type="text" name="bedrooms" required>
+
+            <label>Property Type:</label>
+            <select name="property_type">
+                <option value="rent">Rent</option>
+                <option value="buy">Buy</option>
+            </select>
+
+            <label>Image:</label>
+            <input type="file" name="image" accept="image/*" required>
+
+            <label>Reviews:</label>
+            <textarea name="reviews" placeholder="Add your review here..."></textarea>
+
+            <button type="submit">Post Property</button>
+        </form>
+    </div>
+</body>
+</html>
