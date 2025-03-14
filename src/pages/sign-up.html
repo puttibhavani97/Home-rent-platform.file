@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f6f5f7;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            width: 400px;
+            text-align: center;
+            overflow: hidden;
+            transition: 0.5s ease-in-out;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 1;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .input-field {
+            background: #f0f0f0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .input-field input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .btn {
+            background: #5c6bc0;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #3949ab;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        a {
+            color: #5c6bc0;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Forms container -->
+        <div class="form-container">
+            <!-- Sign In Form -->
+            <form action="#" class="form sign-in-form">
+                <h2 class="title">Sign In</h2>
+                <div class="input-field">
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="input-field">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p>Don't have an account? <a href="#" id="show-sign-up">Sign Up</a></p>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form action="#" class="form sign-up-form hidden">
+                <h2 class="title">Sign Up</h2>
+                <div class="input-field">
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="input-field">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="input-field">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <p>Already have an account? <a href="#" id="show-sign-in">Sign In</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const signUpForm = document.querySelector('.sign-up-form');
+        const signInForm = document.querySelector('.sign-in-form');
+        const showSignUpBtn = document.getElementById('show-sign-up');
+        const showSignInBtn = document.getElementById('show-sign-in');
+
+        showSignUpBtn.addEventListener('click', () => {
+            signInForm.classList.add('hidden');
+            signUpForm.classList.remove('hidden');
+        });
+
+        showSignInBtn.addEventListener('click', () => {
+            signUpForm.classList.add('hidden');
+            signInForm.classList.remove('hidden');
+        });
+
+    </script>
+</body>
+
+</html>

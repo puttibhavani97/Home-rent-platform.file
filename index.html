@@ -417,7 +417,11 @@
         </div>
 
         <div class="navbar-right">
-            <button class="btn btn-post"><a href="src\pages\post-property.html">Property FREE</a></button>
+            <!-- <button class="btn btn-post"><a href="src\pages\post-property.html">Property FREE</a></button> -->
+
+
+            <button class="btn btn-post" onclick="window.location.href='post-property.html'">Property FREE</button>
+
             <!-- Icon Container -->
             <div class="icon-container" id="iconContainer">
 
@@ -534,17 +538,26 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="images1.png" class="img-fluid rounded" alt="Property Image">
+                                <img src="src\assets\images1.png" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
-                                <div class="card-body" data-title="Saibaba House" data-location="Anakalapura, Bangalore">
-                                    <h5 class="card-title"><b>Saibaba House</b></h5>
+                                <div class="card-body" data-title="Saibaba House"
+                                    data-location="Anakalapura, Bangalore">
+                                    <h5 class="card-title">Saibaba House</h5>
                                     <p class="card-text">4 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹39,999</strong> /month</p>
                                     <p class="rating">⭐ 4.7 (40 Reviews)</p>
                                     <p><i class='fas fa-map-marker-alt'></i>Anakalapura,Benglore</p>
-                                    <button class="btn btn-primary">Book Now</button>
-                                    <button class="btn btn-outline-primary">Contact</button>
+                                    <button class="btn btn-primary book-now-btn"
+                                        onclick="window.location.href='book_now.html?title=Saibaba House'">Book
+                                        Now</button>
+                                    <button class="btn btn-outline-primary"
+                                        onclick="showContact('rent-1', 'Saibaba House', '9876543210')">Contact</button>
+                                    <div id="rent-1-contact-info" class="contact-info"
+                                        style="display: none; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                                        <strong>Contact Information:</strong>
+                                        <p id="rent-1-contact-details"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -556,15 +569,18 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image2.png" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image2.png" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body" data-title="Bhavani" data-location="hyderabad">
-                                    <h5 class="card-title">Bhavani Home Rent</h5>
+                                    <h5 class="card-title">Bhavani Home's</h5>
                                     <p class="card-text">3 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹29,999</strong> /month</p>
                                     <p class="rating">⭐ 4.5 (29 Reviews)</p>
-                                    <button class="btn btn-primary">Book Now</button>
+                                    <p><i class='fas fa-map-marker-alt'></i>kukatpalli,Hyderabad</p>
+                                    <button class="btn btn-primary book-now-btn"
+                                        onclick="window.location.href='book_now.html?title=Bhavani Homes'">Book
+                                        Now</button>
                                     <button class="btn btn-outline-primary">Contact</button>
                                 </div>
                             </div>
@@ -577,15 +593,15 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image3.png" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image3.png" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
-                                <div class="card-body" data-title="Lavanya" data-location="vijayawada">
-                                    <h5 class="card-title">Lavanya Home Rent</h5>
+                                <div class="card-body" data-title="Lavanya" data-location="Benglore">
+                                    <h5 class="card-title">Lavanya Home's</h5>
                                     <p class="card-text">3 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹26,999</strong> /month</p>
                                     <p class="rating">⭐ 4.0 (27 Reviews)</p>
-                                    <p><b>Vijayawada</b></p>
+                                    <p><i class='fas fa-map-marker-alt'></i>Benglore</p>
                                     <button class="btn btn-primary">Book Now</button>
                                     <button class="btn btn-outline-primary">Contact</button>
                                 </div>
@@ -599,7 +615,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image4.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image4.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -620,7 +636,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image5.webp" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image5.webp" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -641,7 +657,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image6.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image6.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -662,7 +678,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image7.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image7.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -683,7 +699,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image8.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image8.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -704,7 +720,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="images9.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/images9.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -725,7 +741,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="images10.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/images10.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -746,7 +762,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image11.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image11.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -767,7 +783,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image12.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image12.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -788,7 +804,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image13.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image13.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -809,7 +825,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image14.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image14.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -830,7 +846,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image15.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image15.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -851,11 +867,11 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image16.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image16.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <h5 class="card-title">Saibaba Home</h5>
                                     <p class="card-text">1 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹7,999</strong> /month</p>
                                     <p class="rating">⭐ 3.8 (19 Reviews)</p>
@@ -872,11 +888,11 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image17.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image17.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <h5 class="card-title">HomeHive Rentals</h5>
                                     <p class="card-text">3 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹13,999</strong> /month</p>
                                     <p class="rating">⭐ 4.0 (22 Reviews)</p>
@@ -893,11 +909,11 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image18.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image18.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <h5 class="card-title">NestQuest</h5>
                                     <p class="card-text">2 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹8,999</strong> /month</p>
                                     <p class="rating">⭐ 4.0 (12 Reviews)</p>
@@ -914,11 +930,11 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image19.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image19.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <h5 class="card-title">DreamDwell</h5>
                                     <p class="card-text">2 Bedroom House for rent</p>
                                     <p class="card-text"><strong>₹10,999</strong> /month</p>
                                     <p class="rating">⭐ 4.1 (25 Reviews)</p>
@@ -935,7 +951,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image20.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image20.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -956,7 +972,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image21.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image21.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -977,7 +993,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image22.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image22.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -998,7 +1014,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image23.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image23.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1019,7 +1035,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image24.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image24.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1040,7 +1056,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image25.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image25.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1061,7 +1077,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image26.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image26.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1082,7 +1098,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image27.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image27.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1103,7 +1119,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image28.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image28.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1124,7 +1140,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image29.jpg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image29.jpg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1145,7 +1161,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="image30.jpg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/image30.jpg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1174,7 +1190,8 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale1.jpeg" height="50px"class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale1.jpeg" height="50px" class="img-fluid rounded"
+                                    alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body" data-title="Sahus Home Buy" data-location="hyderabad">
@@ -1183,8 +1200,17 @@
                                     <p class="card-text"><strong>₹80</strong>Lacs</p>
                                     <p><b>Hyderabad</b></p>
                                     <p class="rating">⭐ 4.9 (35 Reviews)</p>
-                                    <button class="btn btn-primary">Book Now</button>
-                                    <button class="btn btn-outline-primary">Contact</button>
+                                    <button class="btn btn-primary book-now-btn"
+                                        onclick="window.location.href='book_now.html?title=Sahus Home Buy'">Book
+                                        Now</button>
+
+                                    <button class="btn btn-outline-primary"
+                                        onclick="showContact('buy-1', 'Sahus Home Buy', '9123456789')">Contact</button>
+                                    <div id="buy-1-contact-info" class="contact-info"
+                                        style="display: none; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                                        <strong>Contact Information:</strong>
+                                        <p id="buy-1-contact-details"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1196,7 +1222,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale2.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale2.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body" data-title="sgb home rent" data-location="vijayawada">
@@ -1205,8 +1231,11 @@
                                     <p class="card-text"><strong>₹70</strong>Lacs</p>
                                     <p><b>vijayawada</b></p>
                                     <p class="rating">⭐ 4.2 (22 Reviews)</p>
-                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-primary book-now-btn"
+                                        onclick="window.location.href='book_now.html?title=sgb Homes'">Book
+                                        Now</button>
                                     <button class="btn btn-outline-primary">Contact</button>
+
                                 </div>
                             </div>
                         </div>
@@ -1218,7 +1247,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale3.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale3.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1239,7 +1268,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale4.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale4.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1260,7 +1289,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale5.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale5.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1281,7 +1310,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale6.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale6.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1302,7 +1331,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale7.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale7.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1323,7 +1352,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale8.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale8.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1344,7 +1373,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale9.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale9.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1365,7 +1394,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale10.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale10.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1386,7 +1415,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale11.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale11.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1407,7 +1436,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale12.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale12.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1428,7 +1457,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale13.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale13.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1449,7 +1478,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale14.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale14.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1470,7 +1499,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale15.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale15.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1491,7 +1520,7 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="imagesale16.jpeg" class="img-fluid rounded" alt="Property Image">
+                                <img src="src/assets/imagesale16.jpeg" class="img-fluid rounded" alt="Property Image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -1532,7 +1561,7 @@
         </div>
 
 
-        <template id="login-form-template">
+        <!-- <template id="login-form-template">
             <div id="login-form">
                 <div class="gbs">
                     <div class="hrp-container" id="hrp-container">
@@ -1579,6 +1608,76 @@
                                     <button class="but hrp-ghost" id="hrp-signUp">Sign Up</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template> -->
+
+
+        <template id="login-form-template">
+            <div id="login-form">
+                <div class="gbs">
+                    <div class="hrp-container" id="hrp-container">
+                        <div class="hrp-form-container hrp-sign-up-container">
+                            <form action="#" class="sgb-form">
+                                <h1 class="sa">Create Account</h1>
+                                <div class="hrp-social-container">
+                                    <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="aa"><i class="fab fa-google-plus-g"></i></a>
+                                    <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                                <span>or use your email for registration</span>
+                                <input type="text" placeholder="Name" class="bbss" />
+                                <input type="email" placeholder="Email" class="bbss" />
+                                <input type="password" placeholder="Password" class="bbss" />
+                                <button class="but">Sign Up</button>
+                            </form>
+                        </div>
+                        <div class="hrp-form-container hrp-sign-in-container">
+                            <form action="#" class="sgb-form" id="sign-in-form">
+                                <h1 class="sa">Sign in</h1>
+                                <div class="hrp-social-container">
+                                    <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="aa"><i class="fab fa-google-plus-g"></i></a>
+                                    <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                                <span class="bgs">or use your account</span>
+                                <input type="email" placeholder="Email" class="bbss" />
+                                <input type="password" placeholder="Password" class="bbss" />
+                                <a href="src\pages\forgot.html" class="aa">Forgot your password?</a>
+                                <button class="but">Sign In</button>
+                            </form>
+                        </div>
+                        <div class="hrp-overlay-container">
+                            <div class="hrp-overlay">
+                                <div class="hrp-overlay-panel hrp-overlay-left">
+                                    <h1 class="sa">Welcome Back!</h1>
+                                    <p class="sahu">To keep connected with us please login with your personal info</p>
+                                    <button class="but hrp-ghost" id="hrp-signIn">Sign In</button>
+                                </div>
+                                <div class="hrp-overlay-panel hrp-overlay-right">
+                                    <h1 class="sa">Hello, Friend!</h1>
+                                    <p class="sahu">Enter your personal details and start your journey with us</p>
+                                    <button class="but hrp-ghost" id="hrp-signUp">Sign Up</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="forgot-password-form-template">
+            <div id="forgot-password-form">
+                <div class="gbs">
+                    <div class="hrp-container">
+                        <div class="sgb-form">
+                            <h1 class="sa">Reset Your Password</h1>
+                            <p class="sahu">Enter your email and we'll send a link to reset your password.</p>
+                            <input type="email" placeholder="Email" class="bbss" />
+                            <button class="but">Send Reset Link</button>
+                            <button class="but hrp-ghost" id="back-to-signin">Back to Sign In</button>
                         </div>
                     </div>
                 </div>
@@ -1672,6 +1771,7 @@
                 dropdownMenu.classList.toggle("active");
             });
 
+
             // Close the dropdown if clicked outside
             document.addEventListener("click", function (e) {
                 if (!iconContainer.contains(e.target) && !dropdownMenu.contains(e.target)) {
@@ -1702,74 +1802,154 @@
 
 
 
-        // JavaScript to show login form in main-content area
+        // JavaScript to show login form in main - content area
+        // document.getElementById('loginButton').addEventListener('click', function () {
+        //     const mainContent = document.querySelector('.main-content');
+        //     const loginFormTemplate = document.getElementById('login-form-template').content.cloneNode(true);
+        //     mainContent.innerHTML = ''; // Clear existing content
+        //     mainContent.appendChild(loginFormTemplate); // Add login form
+        // });
+
+
+        // const signUpButton = document.getElementById('hrp-signUp');
+        // const signInButton = document.getElementById('hrp-signIn');
+        // const container = document.getElementById('hrp-container');
+
+        // signUpButton.addEventListener('click', () => {
+        //     container.classList.add('right-panel-active');
+        // });
+
+        // signInButton.addEventListener('click', () => {
+        //     container.classList.remove('right-panel-active');
+        // });
+
+
+
+        // // Show login form in main-content area
+        // document.getElementById('loginButton').addEventListener('click', function () {
+        //     const mainContent = document.querySelector('.main-content');
+        //     const loginFormTemplate = document.getElementById('login-form-template').content.cloneNode(true);
+        //     mainContent.innerHTML = ''; // Clear existing content
+        //     mainContent.appendChild(loginFormTemplate); // Add login form
+
+        //     // Get elements from the newly added form
+        //     const signUpButton = document.getElementById('hrp-signUp');
+        //     const signInButton = document.getElementById('hrp-signIn');
+        //     const container = document.getElementById('hrp-container');
+
+        //     // Add event listeners for sign-in and sign-up animations
+        //     signUpButton.addEventListener('click', () => {
+        //         container.classList.add('right-panel-active');
+        //     });
+
+        //     signInButton.addEventListener('click', () => {
+        //         container.classList.remove('right-panel-active');
+        //     });
+        // });
+
+
+
+
+        // Show login form in main-content area
         document.getElementById('loginButton').addEventListener('click', function () {
             const mainContent = document.querySelector('.main-content');
             const loginFormTemplate = document.getElementById('login-form-template').content.cloneNode(true);
             mainContent.innerHTML = ''; // Clear existing content
             mainContent.appendChild(loginFormTemplate); // Add login form
+
+            // Get elements from the newly added form
+            const signUpButton = document.getElementById('hrp-signUp');
+            const signInButton = document.getElementById('hrp-signIn');
+            const forgotPasswordLink = document.querySelector('.aa[href="#forgot-password"]');
+            const container = document.getElementById('hrp-container');
+
+            // Add event listeners for sign-in and sign-up animations
+            signUpButton.addEventListener('click', () => {
+                container.classList.add('right-panel-active');
+            });
+
+            signInButton.addEventListener('click', () => {
+                container.classList.remove('right-panel-active');
+            });
+
+            // Forgot password event listener
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showForgotPasswordForm();
+            });
         });
 
+        // Show forgot password form in main-content
+        function showForgotPasswordForm() {
+            const mainContent = document.querySelector('.main-content');
+            const forgotPasswordTemplate = document.getElementById('forgot-password-form-template').content.cloneNode(true);
+            mainContent.innerHTML = ''; // Clear existing content
+            mainContent.appendChild(forgotPasswordTemplate);
 
-        const signUpButton = document.getElementById('hrp-signUp');
-        const signInButton = document.getElementById('hrp-signIn');
-        const container = document.getElementById('hrp-container');
-
-        signUpButton.addEventListener('click', () => {
-            container.classList.add('right-panel-active');
-        });
-
-        signInButton.addEventListener('click', () => {
-            container.classList.remove('right-panel-active');
-        });
+            // Back to sign-in event listener
+            document.getElementById('back-to-signin').addEventListener('click', () => {
+                document.getElementById('loginButton').click(); // Reload login form
+            });
+        }
 
 
+
+        // search-properties//
 
         function searchProperties() {
-    const query = document.getElementById('search-bar').value.trim().toLowerCase();
-    const propertyType = document.getElementById('propertyType').value;
-    const rentCards = document.querySelectorAll('#rent-list .card.mb-3');
-    const buyCards = document.querySelectorAll('#buy-list .card.mb-3');
-    let hasResults = false;
+            const query = document.getElementById('search-bar').value.trim().toLowerCase();
+            const propertyType = document.getElementById('propertyType').value;
+            const rentCards = document.querySelectorAll('#rent-list .card.mb-3');
+            const buyCards = document.querySelectorAll('#buy-list .card.mb-3');
+            let hasResults = false;
 
-    const cards = propertyType === 'Rent' ? rentCards : buyCards;
+            const cards = propertyType === 'Rent' ? rentCards : buyCards;
 
-    cards.forEach(card => {
-        const cardBody = card.querySelector('.card-body');
-        const title = cardBody.getAttribute('data-title')?.toLowerCase() || '';
-        const location = cardBody.getAttribute('data-location')?.toLowerCase() || '';
+            cards.forEach(card => {
+                const cardBody = card.querySelector('.card-body');
+                const title = cardBody.getAttribute('data-title')?.toLowerCase() || '';
+                const location = cardBody.getAttribute('data-location')?.toLowerCase() || '';
 
-        if (title.includes(query) || location.includes(query)) {
-            card.style.display = 'flex'; // Show matching cards
-            hasResults = true;
-        } else {
-            card.style.display = 'none'; // Hide non-matching cards
+                if (title.includes(query) || location.includes(query)) {
+                    card.style.display = 'flex'; // Show matching cards
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none'; // Hide non-matching cards
+                }
+            });
+
+            // Handle "No properties found" message
+            const resultContainer = propertyType === 'Rent' ? document.getElementById('rent-list') : document.getElementById('buy-list');
+            let noResultsMessage = document.getElementById('no-results');
+
+            if (!hasResults) {
+                if (!noResultsMessage) {
+                    noResultsMessage = document.createElement('p');
+                    noResultsMessage.id = 'no-results';
+                    noResultsMessage.textContent = 'No properties found.';
+                    noResultsMessage.style.textAlign = 'center';
+                    noResultsMessage.style.color = 'red';
+                    resultContainer.appendChild(noResultsMessage);
+                }
+            } else if (noResultsMessage) {
+                noResultsMessage.remove();
+            }
         }
-    });
 
-    // Handle "No properties found" message
-    const resultContainer = propertyType === 'Rent' ? document.getElementById('rent-list') : document.getElementById('buy-list');
-    let noResultsMessage = document.getElementById('no-results');
-
-    if (!hasResults) {
-        if (!noResultsMessage) {
-            noResultsMessage = document.createElement('p');
-            noResultsMessage.id = 'no-results';
-            noResultsMessage.textContent = 'No properties found.';
-            noResultsMessage.style.textAlign = 'center';
-            noResultsMessage.style.color = 'red';
-            resultContainer.appendChild(noResultsMessage);
+        function toggleListings() {
+            const propertyType = document.getElementById('propertyType').value;
+            document.getElementById('rent-list').style.display = propertyType === 'Rent' ? 'block' : 'none';
+            document.getElementById('buy-list').style.display = propertyType === 'Buy' ? 'block' : 'none';
         }
-    } else if (noResultsMessage) {
-        noResultsMessage.remove();
-    }
-}
 
-function toggleListings() {
-    const propertyType = document.getElementById('propertyType').value;
-    document.getElementById('rent-list').style.display = propertyType === 'Rent' ? 'block' : 'none';
-    document.getElementById('buy-list').style.display = propertyType === 'Buy' ? 'block' : 'none';
-}
+        // to open contact page//
+
+        function showContact(propertyId, propertyName, phoneNumber) {
+            const contactInfo = document.getElementById(`${propertyId}-contact-info`);
+            const contactDetails = document.getElementById(`${propertyId}-contact-details`);
+            contactDetails.textContent = `For ${propertyName}, call: ${phoneNumber}`;
+            contactInfo.style.display = 'block';
+        }
 
     </script>
 </body>

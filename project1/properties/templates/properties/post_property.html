@@ -34,6 +34,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +49,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .container {
             background: white;
             padding: 20px;
@@ -55,38 +57,46 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             width: 400px;
         }
+
         h2 {
             text-align: center;
             color: #333;
         }
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
         }
-        input, select, textarea, button {
+
+        input,
+        select,
+        textarea,
+        button {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         button {
             background-color: #5cb85c;
             color: white;
             border: none;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #4cae4c;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Post a New Property</h2>
-        <form method="post" >
-            <!-- enctype="multipart/form-data" -->
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <label>Name:</label>
             <input type="text" name="name" required>
@@ -98,7 +108,7 @@
             <input type="number" name="price" required>
 
             <label>Bedrooms:</label>
-            <input type="text" name="bedrooms" required>
+            <input type="number" name="bedrooms" required>
 
             <label>Property Type:</label>
             <select name="property_type">
@@ -109,6 +119,15 @@
             <label>Image:</label>
             <input type="file" name="image" accept="image/*" required>
 
+            <label>Ratings:</label>
+            <select name="rating" required>
+                <option value="5">★★★★★</option>
+                <option value="4">★★★★☆</option>
+                <option value="3">★★★☆☆</option>
+                <option value="2">★★☆☆☆</option>
+                <option value="1">★☆☆☆☆</option>
+            </select>
+
             <label>Reviews:</label>
             <textarea name="reviews" placeholder="Add your review here..."></textarea>
 
@@ -116,4 +135,5 @@
         </form>
     </div>
 </body>
+
 </html>
