@@ -251,186 +251,6 @@
             padding: 10px;
             cursor: pointer;
         }
-
-        /* login page css code */
-
-        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-
-        * {
-            box-sizing: border-box;
-        }
-
-        .gbs {
-            background: #f6f5f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            font-family: 'Montserrat', sans-serif;
-            height: 100vh;
-            margin: -20px 0 50px;
-        }
-
-        .sa {
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .sahu {
-            font-size: 14px;
-            font-weight: 100;
-            line-height: 20px;
-            letter-spacing: 0.5px;
-            margin: 20px 0 30px;
-        }
-
-        .bgs {
-            font-size: 12px;
-        }
-
-        .aa {
-            color: #333;
-            font-size: 14px;
-            text-decoration: none;
-            margin: 15px 0;
-        }
-
-        .but {
-            border-radius: 20px;
-            border: 1px solid #FF4B2B;
-            background-color: #FF4B2B;
-            color: #FFFFFF;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 12px 45px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: transform 80ms ease-in;
-        }
-
-        .but:active {
-            transform: scale(0.95);
-        }
-
-        .but:focus {
-            outline: none;
-        }
-
-        .but.hrp-ghost {
-            background-color: transparent;
-            border-color: #FFFFFF;
-        }
-
-        .sgb-form {
-            background-color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0 50px;
-            height: 100%;
-            text-align: center;
-        }
-
-        .bbss {
-            background-color: #eee;
-            border: none;
-            padding: 12px 15px;
-            margin: 8px 0;
-            width: 100%;
-        }
-
-        .hrp-container {
-            background-color: #fff;
-            border-radius: 10px;
-            width: 768px;
-            max-width: 100%;
-            min-height: 480px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hrp-form-container {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 50%;
-            transition: all 0.6s ease-in-out;
-        }
-
-        .hrp-sign-in-container {
-            left: 0;
-            z-index: 2;
-        }
-
-        .hrp-container.right-panel-active .hrp-sign-in-container {
-            transform: translateX(100%);
-        }
-
-        .hrp-sign-up-container {
-            left: 100%;
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .hrp-container.right-panel-active .hrp-sign-up-container {
-            transform: translateX(-100%);
-            opacity: 1;
-            z-index: 5;
-        }
-
-        .hrp-overlay-container {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 50%;
-            height: 100%;
-            overflow: hidden;
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .hrp-container.right-panel-active .hrp-overlay-container {
-            transform: translateX(-100%);
-        }
-
-        .hrp-overlay {
-            background: linear-gradient(to right, #FF4B2B, #FF416C);
-            color: #FFFFFF;
-            position: relative;
-            left: -100%;
-            height: 100%;
-            width: 200%;
-            display: flex;
-        }
-
-        .hrp-overlay-panel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 40px;
-            text-align: center;
-            width: 50%;
-        }
-
-        .hrp-overlay-left {
-            transform: translateX(0);
-        }
-
-        .hrp-overlay-right {
-            transform: translateX(0);
-        }
-
-        .ggbb {
-            background-color: #222;
-            color: #fff;
-            font-size: 14px;
-            bottom: 0;
-            position: fixed;
-            left: 0;
-            right: 0;
-            text-align: center;
-            z-index: 999;
-        }
     </style>
 </head>
 
@@ -460,7 +280,12 @@
             <!-- Dropdown Menu -->
             <div class="dropdown-menu" id="dropdownMenu">
                 <div class="user-actions">
-                    <h2 class="login-btn" id="loginButton">LOGIN / REGISTER</h2>
+                    {% if user.is_authenticated %}
+                    <h2>Welcome, {{ user.username }}</h2>
+                    <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                    <h2 class="login-btn" id="loginButton"><a href="{% url 'login' %}">LOGIN / REGISTER</a></h2>
+                    {% endif %}
                     <h3>My Activity</h3>
                     <ul>
                         <li>Recently Searched</li>
@@ -473,92 +298,91 @@
         </div>
     </div>
 
+        <!-- Left Sidebar (Filters) -->
+        <div class="left-sidebar">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="filters-container">
+                            <h5>Filters</h5>
+                            <div class="applied-filters">
+                                <strong>Applied Filters:</strong>
+                                <div id="selected-filters"></div>
+                            </div>
 
-    <!-- Left Sidebar (Filters) -->
-    <div class="left-sidebar">
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="filters-container">
-                        <h5>Filters</h5>
-                        <div class="applied-filters">
-                            <strong>Applied Filters:</strong>
-                            <div id="selected-filters"></div>
+                            <!-- Budget Filter -->
+                            <div class="filter-group">
+                                <label for="budget-range" class="form-label">Budget (Lacs)</label>
+                                <input type="range" class="form-range" id="budget-range" min="0" max="100" step="1">
+                                <p>Selected: <span id="budget-value">0</span> Lacs</p>
+                            </div>
+
+                            <!-- Bedrooms Filter -->
+                            <div class="filter-group">
+                                <label class="form-label">No. of Bedrooms</label>
+                                <select class="form-select" id="bedrooms">
+                                    <option value="1 BHK">1 BHK</option>
+                                    <option value="2 BHK">2 BHK</option>
+                                    <option value="3 BHK">3 BHK</option>
+                                    <option value="4 BHK">4 BHK</option>
+                                    <option value="5 BHK">5+ BHK</option>
+                                </select>
+                            </div>
+
+                            <!-- Property Type Filter -->
+                            <div class="filter-group">
+                                <label class="form-label"><b> Type of Property</b></label>
+                                <div>
+                                    <input type="checkbox" id="independent-house" value="Independent House">
+                                    <label for="independent-house"> Independent House/Villa</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="apartment" value="Apartment">
+                                    <label for="apartment"> Residential Apartment</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="farm-house" value="Farm House">
+                                    <label for="farm-house"> Farm House/Villa</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="servicedapartment" value="Serviced_Apartment">
+                                    <label for="servicedapartment"> Serviced Apartment</label>
+                                </div>
+                            </div>
+
+
+                            <!-- Available Type Filter -->
+                            <div class="filter-group">
+                                <label class="form-label"><b> Available for</b></label>
+                                <div>
+                                    <input type="checkbox" id="family" value="Family">
+                                    <label for="family"> Family</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="singlewomen" value="SingleWomen">
+                                    <label for="singlewomen"> Residential </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="singlemen" value="Single Men">
+                                    <label for="singlemen"> Single Men</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="tenants" value="Tenants with company lease">
+                                    <label for="tenants"> Tenants with company Lease</label>
+                                </div>
+                            </div>
+
+                            <!-- Apply Filters Button -->
+                            <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
                         </div>
-
-                        <!-- Budget Filter -->
-                        <div class="filter-group">
-                            <label for="budget-range" class="form-label">Budget (Lacs)</label>
-                            <input type="range" class="form-range" id="budget-range" min="0" max="100" step="1">
-                            <p>Selected: <span id="budget-value">0</span> Lacs</p>
-                        </div>
-
-                        <!-- Bedrooms Filter -->
-                        <div class="filter-group">
-                            <label class="form-label">No. of Bedrooms</label>
-                            <select class="form-select" id="bedrooms">
-                                <option value="1 BHK">1 BHK</option>
-                                <option value="2 BHK">2 BHK</option>
-                                <option value="3 BHK">3 BHK</option>
-                                <option value="4 BHK">4 BHK</option>
-                                <option value="5 BHK">5+ BHK</option>
-                            </select>
-                        </div>
-
-                        <!-- Property Type Filter -->
-                        <div class="filter-group">
-                            <label class="form-label"><b> Type of Property</b></label>
-                            <div>
-                                <input type="checkbox" id="independent-house" value="Independent House">
-                                <label for="independent-house"> Independent House/Villa</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="apartment" value="Apartment">
-                                <label for="apartment"> Residential Apartment</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="farm-house" value="Farm House">
-                                <label for="farm-house"> Farm House/Villa</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="servicedapartment" value="Serviced_Apartment">
-                                <label for="servicedapartment"> Serviced Apartment</label>
-                            </div>
-                        </div>
-
-
-                        <!-- Available Type Filter -->
-                        <div class="filter-group">
-                            <label class="form-label"><b> Available for</b></label>
-                            <div>
-                                <input type="checkbox" id="family" value="Family">
-                                <label for="family"> Family</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="singlewomen" value="SingleWomen">
-                                <label for="singlewomen"> Residential </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="singlemen" value="Single Men">
-                                <label for="singlemen"> Single Men</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="tenants" value="Tenants with company lease">
-                                <label for="tenants"> Tenants with company Lease</label>
-                            </div>
-                        </div>
-
-                        <!-- Apply Filters Button -->
-                        <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <!-- Main Content Area
+        <!-- Main Content Area
     <div class="main-content">
         Rent Listings
         <div class="container">
@@ -625,134 +449,86 @@
 
 
 
-    <!-- Main Content Area -->
-    <div class="main-content">
-        <!-- Rent Listings -->
-        <div class="container">
-            <div id="rent-list">
-                <h4>Properties for Rent</h4>
-                <div class="row">
-                    {% if rent_properties %}
-                    {% for property in rent_properties %}
-                    <div class="col-md-12">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{% if property.image %}{{ property.image.url }}{% else %}/static/images/default-placeholder.png{% endif %}"
-                                        alt="{{ property.name }}" height="230px" width="270px" />
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ property.name }}</h5>
-                                        <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
-                                        <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
-                                        <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)
-                                        </p>
-                                        <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
-                                        <button class="btn btn-primary">Book Now</button>
-                                        <button class="btn btn-outline-primary">Contact</button>
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Rent Listings -->
+            <div class="container">
+                <div id="rent-list">
+                    <h4>Properties for Rent</h4>
+                    <div class="row">
+                        {% if rent_properties %}
+                        {% for property in rent_properties %}
+                        <div class="col-md-12 property-card" data-id="rent-{{property.id}}" data-type="rent">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% if property.image %}{{ property.image.url }}{% else %}/static/images/default-placeholder.png{% endif %} "
+                                            alt="{{ property.name }}" height="200px" width="250px" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ property.name }}</h5>
+                                            <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
+                                            <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
+                                            <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }}
+                                                Reviews)
+                                            </p>
+                                            <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
+                                            <button class="btn btn-primary">Book Now</button>
+                                            <button class="btn btn-primary view-property"
+                                                data-id="rent-{{ property.id }}" data-type="rent">ViewProperty</button>
+                                            <button class="btn btn-outline-primary">Contact</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>No properties available for rent.</p>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                    {% else %}
-                    <p>No properties available for rent.</p>
-                    {% endif %}
+                </div>
+                <!-- Buy Listings -->
+                <div id="buy-list">
+                    <h4>Properties for Buy</h4>
+                    <div class="row">
+                        {% if buy_properties %}
+                        {% for property in buy_properties %}
+                        <div class="col-md-12 property-card" data-id="buy-{{property.id}}" data-type="buy">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% if property.image %}{{ property.image.url }}{% else %}/static/images/default-placeholder.png{% endif %}"
+                                            alt="{{ property.name }}" height="200px" width="250px" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ property.name }}</h5>
+                                            <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
+                                            <p class="card-text"><strong>₹{{ property.price }}</strong></p>
+                                            <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }}
+                                                Reviews)
+                                            </p>
+                                            <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
+                                            <button class="btn btn-primary">Buy Now</button>
+                                            <button class="btn btn-primary view-property"
+                                                data-id="buy-{{ property.id }}">ViewProperty</button>
+                                            <button class="btn btn-outline-primary">Contact</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>No properties available for buy.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-            <!-- Buy Listings -->
-            <div id="buy-list">
-                <h4>Properties for Buy</h4>
-                <div class="row">
-                    {% if buy_properties %}
-                    {% for property in buy_properties %}
-                    <div class="col-md-12">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{% if property.image %}{{ property.image.url }}{% else %}/static/images/default-placeholder.png{% endif %}"
-                                        alt="{{ property.name }}" height="230px" width="270px" />
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ property.name }}</h5>
-                                        <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
-                                        <p class="card-text"><strong>₹{{ property.price }}</strong></p>
-                                        <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)
-                                        </p>
-                                        <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
-                                        <button class="btn btn-primary">Buy Now</button>
-                                        <button class="btn btn-outline-primary">Contact</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <p>No properties available for buy.</p>
-                    {% endif %}
-                </div>
-            </div>
-
-
-
-            <template id="login-form-template">
-                <div id="login-form">
-                    <div class="gbs">
-                        <div class="hrp-container" id="hrp-container">
-                            <div class="hrp-form-container hrp-sign-up-container">
-                                <form action="#" class="sgb-form">
-                                    <h1 class="sa">Create Account</h1>
-                                    <div class="hrp-social-container">
-                                        <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#" class="aa"><i class="fab fa-google-plus-g"></i></a>
-                                        <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                    <span>or use your email for registration</span>
-                                    <input type="text" placeholder="Name" class="bbss" />
-                                    <input type="email" placeholder="Email" class="bbss" />
-                                    <input type="password" placeholder="Password" class="bbss" />
-                                    <button class="but">Sign Up</button>
-                                </form>
-                            </div>
-                            <div class="hrp-form-container hrp-sign-in-container">
-                                <form action="#" class="sgb-form">
-                                    <h1 class="sa">Sign in</h1>
-                                    <div class="hrp-social-container">
-                                        <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#" class="aa"><i class="fab fa-google-plus-g"></i></a>
-                                        <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                    <span class="bgs">or use your account</span>
-                                    <input type="email" placeholder="Email" class="bbss" />
-                                    <input type="password" placeholder="Password" class="bbss" />
-                                    <a href="#" class="aa">Forgot your password?</a>
-                                    <button class="but">Sign In</button>
-                                </form>
-                            </div>
-                            <div class="hrp-overlay-container">
-                                <div class="hrp-overlay">
-                                    <div class="hrp-overlay-panel hrp-overlay-left">
-                                        <h1 class="sa">Welcome Back!</h1>
-                                        <p class="sahu">To keep connected with us please login with your personal info
-                                        </p>
-                                        <button class="but hrp-ghost" id="hrp-signIn">Sign In</button>
-                                    </div>
-                                    <div class="hrp-overlay-panel hrp-overlay-right">
-                                        <h1 class="sa">Hello, Friend!</h1>
-                                        <p class="sahu">Enter your personal details and start your journey with us</p>
-                                        <button class="but hrp-ghost" id="hrp-signUp">Sign Up</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-
         </div>
 
 
@@ -892,7 +668,7 @@
             });
 
 
-
+            // search bar//
             function searchProperties() {
                 const query = document.getElementById('search-bar').value.trim().toLowerCase();
                 const propertyType = document.getElementById('propertyType').value;
@@ -936,7 +712,85 @@
                 }
 
             }
+
+
+
+            // <!-- JavaScript to handle dynamic property display -->
+
+            // to view property//
+
+
+            function showProperty(card) {
+                // Hide all property cards
+                document.querySelectorAll(".card.mb-3").forEach((el) => {
+                    el.style.display = "none";
+                });
+
+                // Show only the selected property card
+                card.style.display = "block";
+
+                // Add a Back to List button if not already present
+                if (!document.getElementById("backToList")) {
+                    const backButton = document.createElement("button");
+                    backButton.textContent = "Back to List";
+                    backButton.id = "backToList";
+                    backButton.className = "btn btn-secondary";
+                    backButton.style.marginTop = "10px";
+                    backButton.addEventListener("click", function () {
+                        document.querySelectorAll(".card.mb-3").forEach((el) => {
+                            el.style.display = "block";
+                        });
+                        this.remove();
+                    });
+                    card.parentNode.appendChild(backButton);
+                }
+            }
+
+            // Attach click event to each property card
+            document.querySelectorAll(".card.mb-3").forEach((card) => {
+                card.addEventListener("click", function () {
+                    showProperty(this);
+                });
+            });
+
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                console.log("JavaScript Loaded");
+
+                const signUpButton = document.getElementById("signUp");
+                const signInButton = document.getElementById("signIn");
+                const container = document.getElementById("container");
+
+                if (signUpButton && signInButton && container) {
+                    console.log("Elements Found");
+
+                    signUpButton.addEventListener("click", () => {
+                        console.log("Sign Up Clicked");
+                        container.classList.add("right-panel-active");
+                    });
+
+                    signInButton.addEventListener("click", () => {
+                        console.log("Sign In Clicked");
+                        container.classList.remove("right-panel-active");
+                    });
+                } else {
+                    console.log("One or more elements not found!");
+                }
+            });
+
+
         </script>
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

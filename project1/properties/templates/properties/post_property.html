@@ -31,7 +31,7 @@
 
 
 
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,55 +40,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Property</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
+        }
+
+        body {
             background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
 
         .container {
             background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
         }
 
         h2 {
             text-align: center;
             color: #333;
+            margin-bottom: 20px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
+        .form-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            flex: 1;
             font-weight: bold;
+            color: #555;
         }
 
-        input,
-        select,
-        textarea,
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            flex: 2;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+            box-shadow: 0 0 8px rgba(92, 184, 92, 0.3);
+        }
+
         button {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
+            padding: 12px;
             background-color: #5cb85c;
             color: white;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: background 0.3s ease;
         }
 
         button:hover {
             background-color: #4cae4c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .form-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -131,9 +166,208 @@
             <label>Reviews:</label>
             <textarea name="reviews" placeholder="Add your review here..."></textarea>
 
+
+            <label for="contact_name">Contact Name:</label>
+            <input type="text" id="contact_name" name="contact_name" required>
+
+            <label for="contact_phone">Phone Number:</label>
+            <input type="tel" id="contact_phone" name="contact_phone" pattern="[0-9]{10}"
+                placeholder="Enter 10-digit phone number" required>
+
+            <label for="contact_email">Email:</label>
+            <input type="email" id="contact_email" name="contact_email" placeholder="example@email.com" required>
+
             <button type="submit">Post Property</button>
         </form>
     </div>
+</body>
+
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Property</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .b {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .containerr {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .hh {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .l {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+            box-shadow: 0 0 8px rgba(92, 184, 92, 0.3);
+        }
+
+        .d {
+            width: 100%;
+            padding: 12px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .d:hover {
+            background-color: #4cae4c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="b">
+
+    <div class="containerr">
+        <h2 class="hh">Post a New Property</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div>
+                    <label class="l">Name:</label>
+                    <input type="text" name="name" required>
+                </div>
+
+                <div>
+                    <label class="l">Location:</label>
+                    <input type="text" name="location" required>
+                </div>
+
+                <div>
+                    <label class="l">Price:</label>
+                    <input type="number" name="price" required>
+                </div>
+
+                <div>
+                    <label class="l">Bedrooms:</label>
+                    <input type="number" name="bedrooms" required>
+                </div>
+
+                <div>
+                    <label class="l">Property Type:</label>
+                    <select name="property_type">
+                        <option value="rent">Rent</option>
+                        <option value="buy">Buy</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="l">Image:</label>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+
+                <div>
+                    <label>Ratings:</label>
+                    <select name="rating" required>
+                        <option value="5">★★★★★</option>
+                        <option value="4">★★★★☆</option>
+                        <option value="3">★★★☆☆</option>
+                        <option value="2">★★☆☆☆</option>
+                        <option value="1">★☆☆☆☆</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="l">Reviews:</label>
+                    <textarea name="reviews" placeholder="Add your review here..."></textarea>
+                </div>
+
+                <div>
+                    <label  class="l" for="contact_name">Contact Name:</label>
+                    <input type="text" id="contact_name" name="contact_name" required>
+                </div>
+
+                <div>
+                    <label  class="l" for="contact_phone">Phone Number:</label>
+                    <input type="tel" id="contact_phone" name="contact_phone" pattern="[0-9]{10}"
+                        placeholder="Enter 10-digit phone number" required>
+                </div>
+
+                <div class="full-width">
+                    <label  class="l" for="contact_email">Email:</label>
+                    <input type="email" id="contact_email" name="contact_email" placeholder="example@email.com" required>
+                </div>
+
+                <div class="full-width">
+                    <button class="d" type="submit">Post Property</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </body>
 
 </html>

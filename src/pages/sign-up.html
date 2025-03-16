@@ -113,6 +113,7 @@
                 <div class="input-field">
                     <input type="password" placeholder="Password" required>
                 </div>
+                <a href="#" id="show-forgot-password">Forgot Password?</a> <!-- Forgot Password Link -->
                 <button type="submit" class="btn">Login</button>
                 <p>Don't have an account? <a href="#" id="show-sign-up">Sign Up</a></p>
             </form>
@@ -132,22 +133,54 @@
                 <button type="submit" class="btn">Register</button>
                 <p>Already have an account? <a href="#" id="show-sign-in">Sign In</a></p>
             </form>
+
+            <!-- Forgot Password Form -->
+            <form action="#" class="form forgot-password-form hidden">
+                <h2 class="title">Forgot Password</h2>
+                <p>Enter your email to reset your password</p>
+                <div class="input-field">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <button type="submit" class="btn">Reset Password</button>
+                <p><a href="#" id="back-to-sign-in">Back to Sign In</a></p>
+            </form>
         </div>
     </div>
 
     <script>
         const signUpForm = document.querySelector('.sign-up-form');
         const signInForm = document.querySelector('.sign-in-form');
+        const forgotPasswordForm = document.querySelector('.forgot-password-form');
+
         const showSignUpBtn = document.getElementById('show-sign-up');
         const showSignInBtn = document.getElementById('show-sign-in');
+        const showForgotPasswordBtn = document.getElementById('show-forgot-password');
+        const backToSignInBtn = document.getElementById('back-to-sign-in');
 
+        // Show Sign Up Form
         showSignUpBtn.addEventListener('click', () => {
             signInForm.classList.add('hidden');
             signUpForm.classList.remove('hidden');
+            forgotPasswordForm.classList.add('hidden');
         });
 
+        // Show Sign In Form
         showSignInBtn.addEventListener('click', () => {
             signUpForm.classList.add('hidden');
+            signInForm.classList.remove('hidden');
+            forgotPasswordForm.classList.add('hidden');
+        });
+
+        // Show Forgot Password Form
+        showForgotPasswordBtn.addEventListener('click', () => {
+            signInForm.classList.add('hidden');
+            signUpForm.classList.add('hidden');
+            forgotPasswordForm.classList.remove('hidden');
+        });
+
+        // Back to Sign In Form
+        backToSignInBtn.addEventListener('click', () => {
+            forgotPasswordForm.classList.add('hidden');
             signInForm.classList.remove('hidden');
         });
 
