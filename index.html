@@ -1960,39 +1960,23 @@
 
 
 
-        function showProperty(card) {
-            // Hide all property cards
-            document.querySelectorAll(".card.mb-3").forEach((el) => {
-                el.style.display = "none";
-            });
-
-            // Show only the selected property card
-            card.style.display = "block";
-
-            // Add a Back to List button if not already present
-            if (!document.getElementById("backToList")) {
-                const backButton = document.createElement("button");
-                backButton.textContent = "Back to List";
-                backButton.id = "backToList";
-                backButton.className = "btn btn-secondary";
-                backButton.style.marginTop = "10px";
-                backButton.addEventListener("click", function () {
-                    document.querySelectorAll(".card.mb-3").forEach((el) => {
-                        el.style.display = "block";
-                    });
-                    this.remove();
-                });
-                card.parentNode.appendChild(backButton);
+        function showContact(propertyId) {
+    fetch(`/get_contact_details/${propertyId}/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById(`contact-details-${propertyId}`).innerHTML = `
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Phone:</strong> ${data.phone}</p>
+                    <p><strong>Email:</strong> ${data.email}</p>
+                `;
+                document.getElementById(`contact-info-${propertyId}`).style.display = 'block';
+            } else {
+                alert("Contact details not available.");
             }
-        }
-
-        // Attach click event to each property card
-        document.querySelectorAll(".card.mb-3").forEach((card) => {
-            card.addEventListener("click", function () {
-                showProperty(this);
-            });
-        });
-
+        })
+        .catch(error => console.error('Error fetching contact details:', error));
+}
 
     </script>
 </body>

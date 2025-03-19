@@ -37,6 +37,14 @@
             transition: 0.5s ease-in-out;
         }
 
+        /* Home Logo Styling */
+        .home-logo {
+            width: 100px; /* Adjust as needed */
+            height: auto;
+            display: block;
+            margin: 0 auto 15px; /* Center logo and add spacing */
+        }
+
         .three {
             display: flex;
             flex-direction: column;
@@ -117,6 +125,8 @@
 
 <body class="onee">
     <div class="to">
+        <!-- Home Logo Added Here -->
+
         <div class="form-container">
             <form action="{% url 'login' %}" method="POST" class="form sign-in-form three">
                 {% csrf_token %}

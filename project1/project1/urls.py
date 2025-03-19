@@ -18,10 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from properties.views import get_contact_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('properties.urls')),  # or your app's URL configuration
+    path('get_contact_details/<int:property_id>/', get_contact_details, name='get_contact_details'),
+    
+
     
 ]
 
