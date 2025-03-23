@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <!-- <link rel="stylesheet" href="{% static 'styles.css' %}"> -->
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Payment Card */
+        .payment-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        /* Description */
+        p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        /* Two-Column Row */
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Button */
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="payment-card">
+            <h1>Complete Your Payment 💳</h1>
+            <p>Enter your payment details below to finalize the booking.</p>
+            <form id="payment-form" method="POST" action="{% url 'process_payment' booking.id %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="card-name">Cardholder Name</label>
+                    <input type="text" id="card-name" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="1234567890123456" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount (in USD)</label>
+                    <input type="text" id="amount" placeholder="100.00" required>
+                </div>
+
+                <button type="submit">Pay Now</button>
+            </form>
+
+            <a href="{% url 'index' %}" class="back-link">Cancel Payment</a>
+            <a href="{% url 'download_invoice' booking.id %}">Download Invoice</a>
+
+        </div>
+    </div>
+
+    <!-- <script>
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let paymentData = {
+                card_name: document.getElementById("card-name").value,
+                card_number: document.getElementById("card-number").value,
+                expiry_date: document.getElementById("expiry-date").value,
+                cvv: document.getElementById("cvv").value,
+                amount: document.getElementById("amount").value
+            };
+
+            fetch("/process_payment/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(paymentData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.status === "success") {
+                        window.location.href = "/";  // Redirect to home after success
+                    }
+                });
+        });
+    </script> -->
+
+
+    <script>
+        function submitPayment(bookingId) {
+            console.log("📤 Sending Payment Request for Booking ID:", bookingId);
+
+            fetch(`/process_payment/${bookingId}/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value  // Include CSRF token
+                },
+                body: JSON.stringify({
+                    card_name: "John Doe",
+                    card_number: "1234567890123456",
+                    expiry_date: "12/26",
+                    cvv: "123",
+                    amount: 5000
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("📩 Server Response:", data);
+                    if (data.status === "success") {
+                        alert("✅ Payment Successful!");
+                        window.location.href = "/index";  // Redirect to Home Page
+                    } else {
+                        alert("❌ Payment Failed: " + data.message);
+                    }
+                })
+                .catch(error => console.error("❌ Fetch Error:", error));
+        }
+    </script>
+
+
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@ from .models import Property, Booking
 class PropertyAdmin(admin.ModelAdmin):
     list_display = ['name', 'location', 'price', 'bedrooms', 'rating']
 
-@admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('property', 'user', 'start_date', 'end_date', 'status')  # ✅ Correct fields
+    list_display = ('property', 'status', 'check_in_date', 'check_out_date', 'user_id', 'booking_date')
+
+admin.site.register(Booking, BookingAdmin)

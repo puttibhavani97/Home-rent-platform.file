@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 
@@ -46,18 +47,50 @@ class Contact(models.Model):
         return self.name
 
 
+# class Booking(models.Model):
+#     property = models.ForeignKey(
+#         'Property', on_delete=models.CASCADE, related_name='bookings'
+#     )
+#     user = models.ForeignKey(
+#         User, on_delete=models.CASCADE, default=1 
+#     )
+#     start_date = models.DateField(default='2024-01-01')
+#     end_date = models.DateField(default='2024-01-01')
+#     status = models.CharField(
+#         max_length=20, choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')], default='pending'
+#     )
+
+#     def __str__(self):
+#         return f"{self.property.name} - {self.user.username}"
+
+
+
 class Booking(models.Model):
-    property = models.ForeignKey(
-        'Property', on_delete=models.CASCADE, related_name='bookings'
-    )
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, default=1 
-    )
-    start_date = models.DateField(default='2024-01-01')
-    end_date = models.DateField(default='2024-01-01')
-    status = models.CharField(
-        max_length=20, choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')], default='pending'
-    )
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    check_in_date = models.DateField()
+    check_out_date = models.DateField()
+    booking_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=[
+        ('Pending', 'Pending'),
+        ('Confirmed', 'Confirmed'),
+        ('Cancelled', 'Cancelled'),
+    ], default='Pending')
+
+class Agreement(models.Model):
+    booking = models.OneToOneField(Booking, on_delete=models.CASCADE)
+    agreement_text = models.TextField()
+    signed_date = models.DateTimeField(auto_now_add=True)
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link payment to a user
+    card_name = models.CharField(max_length=255)
+    card_number = models.CharField(max_length=16)  # Store securely in a real app!
+    expiry_date = models.CharField(max_length=5)
+    cvv = models.CharField(max_length=4)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.property.name} - {self.user.username}"
+        return f"Payment {self.id} - {self.user.username} - ${self.amount}"

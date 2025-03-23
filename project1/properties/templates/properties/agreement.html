@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Confirmation</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
     <style>
         /* General styling */
         body {
@@ -90,6 +89,13 @@
 </head>
 
 <body>
+    <!-- <h2>Rental Agreement</h2>
+    <p>Property: {{ property.title }}</p>
+    <p>Tenant Name: {{ user.username }}</p>
+    <p>Agreement Date: {{ agreement_date }}</p>
+    <p>Rent Amount: {{ rent_amount }}</p> -->
+
+
     <div class="container">
         <div class="confirmation-card">
             <h1>Booking Confirmed! ✅</h1>
@@ -100,26 +106,20 @@
                 <li>Respect the property's rules and regulations.</li>
                 <li>Contact the property owner directly for any inquiries.</li>
             </ul>
+        </div>
 
-            <div class="action-buttons">
-                <button onclick="agreeAndProceed()">I Agree</button>
-                <a href="{% url 'index' %}" class="back-link">Go Back to Home</a>
-            </div>
+        <div class="action-buttons">
+            <button onclick="agreeAndProceed()">I Agree</button>
+            <a href="{% url 'index' %}" class="back-link">Go Back to Home</a>
         </div>
     </div>
+    <!-- <a href="{% url 'download_invoice' booking.id %}">Download Invoice</a> -->
 
-    <script>
-        // function agreeAndProceed() {
-        //     alert("Thank you for agreeing to the terms! Your booking is now finalized.");
-        //     window.location.href = "index.html"; // Redirect to homepage or next page
-        // }
-
-
-        function agreeAndProceed() {
-            // Redirect to the Payment Page
-            window.location.href = "payment.html";
-        }
-    </script>
 </body>
+<script>
+    function agreeAndProceed() {
+        window.location.href = "{% url 'payment' booking.id %}"; // Redirects to Payment Page
+    }
+</script>
 
 </html>

@@ -19,11 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from properties.views import get_contact_details
+from properties import views as properties_views
+from properties import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('properties.urls')),  # or your app's URL configuration
     path('get_contact_details/<int:property_id>/', get_contact_details, name='get_contact_details'),
+    path('book_now/<int:property_id>/', views.book_now, name='book_now'),
+     path('signin/', properties_views.signup_view, name='signin'),  # Signin page
     
 
     
