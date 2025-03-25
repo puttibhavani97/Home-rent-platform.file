@@ -251,6 +251,68 @@
             padding: 10px;
             cursor: pointer;
         }
+
+
+        .property-card.expanded {
+            width: 70%;
+            /* Increase card width */
+            margin: auto;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            /* Image & details stacked */
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-card.expanded img {
+            width: 90%;
+            /* Make image large */
+            max-width: 800px;
+            /* Set max width */
+            height: auto;
+            /* Maintain aspect ratio */
+            max-height: 450px;
+            /* Prevent excessive height */
+            object-fit: cover;
+            /* Crop & fit */
+            border-radius: 8px;
+            display: block;
+        }
+
+        .property-card.expanded .card-body {
+            width: 100%;
+            text-align: center;
+            /* Center text */
+            padding-top: 20px;
+        }
+
+        /* Reduce text size */
+        .property-card.expanded .card-title {
+            font-size: 20px;
+            /* Smaller title */
+            font-weight: bold;
+        }
+
+        .property-card.expanded .card-text {
+            font-size: 16px;
+            /* Reduce text size */
+            color: #555;
+        }
+
+        .property-card.expanded .rating {
+            font-size: 14px;
+            /* Smaller rating text */
+        }
+
+        .property-card.expanded .btn {
+            font-size: 14px;
+            /* Reduce button text size */
+            padding: 8px 12px;
+        }
     </style>
 </head>
 
@@ -470,8 +532,10 @@
                                         <h5 class="card-title">{{ property.name }}</h5>
                                         <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
                                         <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
-                                        <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }}
-                                            Reviews)
+                                        <p class="rating">
+                                            ⭐ {% if property.rating %} {{ property.rating }} {% else %} 0.0 {% endif %}
+                                            ({% if property.reviews_count %} {{ property.reviews_count }} {% else %} 0
+                                            {% endif %} Reviews)
                                         </p>
                                         <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
                                         <button class="btn btn-primary book-now-btn"
@@ -522,8 +586,10 @@
                                         <h5 class="card-title">{{ property.name }}</h5>
                                         <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
                                         <p class="card-text"><strong>₹{{ property.price }}</strong></p>
-                                        <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }}
-                                            Reviews)
+                                        <p class="rating">
+                                            ⭐ {% if property.rating %} {{ property.rating }} {% else %} 0.0 {% endif %}
+                                            ({% if property.reviews_count %} {{ property.reviews_count }} {% else %} 0
+                                            {% endif %} Reviews)
                                         </p>
                                         <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
                                         <button class="btn btn-primary book-now-btn"
@@ -567,13 +633,13 @@
 
             <div class="menu-item">For Buyers</div>
             <div class="submenu">
-                <a href="#">Buy Property</a>
+                <a href="#" id="exploreBuyProperty">Buy Property</a>
                 <a href="#">Investment Advice</a>
             </div>
 
             <div class="menu-item">For Tenants</div>
             <div class="submenu">
-                <a href="#">Rent Homes</a>
+                <a href="#" id="exploreRentProperty">Rental Home</a>
                 <a href="#">Short-term Rentals</a>
             </div>
 
@@ -588,7 +654,9 @@
                 <a href="#">Partner with Us</a>
                 <a href="#">Builder Services</a>
             </div>
-            <div class="menu-item">About Us</div>
+            <div class="menu-item">
+                <a href="aboutus.html">About Us</a>
+            </div>
         </div>
 
     </div>
@@ -728,41 +796,139 @@
 
         // to view property//
 
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     document.querySelectorAll(".view-property").forEach((button) => {
+        //         button.addEventListener("click", function (event) {
+        //             event.stopPropagation();
+        //             let propertyId = this.getAttribute("data-id");
+        //             showProperty(propertyId);
+        //         });
+        //     });
+        // });
 
-        function showProperty(card) {
+        // function showProperty(propertyId) {
+        //     // Hide all property cards
+        //     document.querySelectorAll(".property-card").forEach((card) => {
+        //         card.style.display = "none";
+        //     });
+
+        //     // Show only the selected property card
+        //     let selectedProperty = document.querySelector(`[data-id='${propertyId}']`);
+        //     if (selectedProperty) {
+        //         selectedProperty.style.display = "block";
+        //         selectedProperty.classList.add("expanded"); // Add class for styling
+        //     }
+
+        //     // Remove existing back button
+        //     let existingBackButton = document.getElementById("backToList");
+        //     if (existingBackButton) {
+        //         existingBackButton.remove();
+        //     }
+
+        //     // Add "Back to List" button
+        //     const backButton = document.createElement("button");
+        //     backButton.textContent = "Back to List";
+        //     backButton.id = "backToList";
+        //     backButton.className = "btn btn-secondary";
+        //     backButton.style.marginTop = "10px";
+        //     backButton.addEventListener("click", function () {
+        //         document.querySelectorAll(".property-card").forEach((card) => {
+        //             card.style.display = "block";
+        //             card.classList.remove("expanded"); // Reset style
+        //         });
+        //         this.remove();
+        //     });
+
+        //     selectedProperty.appendChild(backButton);
+        // }
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".view-property").forEach((button) => {
+                button.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    let propertyId = this.getAttribute("data-id");
+                    showProperty(propertyId);
+                });
+            });
+        });
+
+        function showProperty(propertyId) {
             // Hide all property cards
-            document.querySelectorAll(".card.mb-3").forEach((el) => {
-                el.style.display = "none";
+            document.querySelectorAll(".property-card").forEach((card) => {
+                card.style.display = "none";
             });
 
             // Show only the selected property card
-            card.style.display = "block";
-
-            // Add a Back to List button if not already present
-            if (!document.getElementById("backToList")) {
-                const backButton = document.createElement("button");
-                backButton.textContent = "Back to List";
-                backButton.id = "backToList";
-                backButton.className = "btn btn-secondary";
-                backButton.style.marginTop = "10px";
-                backButton.addEventListener("click", function () {
-                    document.querySelectorAll(".card.mb-3").forEach((el) => {
-                        el.style.display = "block";
-                    });
-                    this.remove();
-                });
-                card.parentNode.appendChild(backButton);
+            let selectedProperty = document.querySelector(`[data-id='${propertyId}']`);
+            if (selectedProperty) {
+                selectedProperty.style.display = "block";
+                selectedProperty.classList.add("expanded"); // Add expanded class
             }
+
+            // Remove existing back button
+            let existingBackButton = document.getElementById("backToList");
+            if (existingBackButton) {
+                existingBackButton.remove();
+            }
+
+            // Add "Back to List" button
+            const backButton = document.createElement("button");
+            backButton.textContent = "Back to List";
+            backButton.id = "backToList";
+            backButton.className = "btn btn-secondary";
+            backButton.style.marginTop = "10px";
+            backButton.addEventListener("click", function () {
+                document.querySelectorAll(".property-card").forEach((card) => {
+                    card.style.display = "block";
+                    card.classList.remove("expanded"); // Remove expanded style
+                });
+                this.remove();
+            });
+
+            selectedProperty.appendChild(backButton);
         }
 
-        // Attach click event to each property card
-        document.querySelectorAll(".card.mb-3").forEach((card) => {
-            card.addEventListener("click", function () {
-                showProperty(this);
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Click event for Buy Property
+            document.getElementById("exploreBuyProperty").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent page reload
+                console.log("Buy Property clicked!");
+
+                let allProperties = document.querySelectorAll(".property-card"); // Select all properties
+                allProperties.forEach((property) => {
+                    if (property.getAttribute("data-type") === "buy") {
+                        property.style.display = "block"; // Show buy properties
+                    } else {
+                        property.style.display = "none"; // Hide rental properties
+                    }
+                });
+            });
+
+            // Click event for Rental Home
+            document.getElementById("exploreRentProperty").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent page reload
+                console.log("Rental Home clicked!");
+
+                let allProperties = document.querySelectorAll(".property-card"); // Select all properties
+                allProperties.forEach((property) => {
+                    if (property.getAttribute("data-type") === "rent") {
+                        property.style.display = "block"; // Show rent properties
+                    } else {
+                        property.style.display = "none"; // Hide buy properties
+                    }
+                });
             });
         });
 
 
+
+
+        //signin and signup
 
         document.addEventListener("DOMContentLoaded", function () {
             console.log("JavaScript Loaded");
@@ -832,16 +998,34 @@
 
 
 
+
+
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("exploreBuyProperty").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent page reload
+
+                console.log("Buy Property clicked!"); // Debugging
+
+                let allProperties = document.querySelectorAll(".property-card"); // Select all properties
+
+                allProperties.forEach((property) => {
+                    if (property.getAttribute("data-type") === "buy") {
+                        property.style.display = "block"; // Show buy properties
+                    } else {
+                        property.style.display = "none"; // Hide rent properties
+                    }
+                });
+            });
+        });
+
+
+
     </script>
-
-
-
-
-
-
-
-
-
 
 </body>
 

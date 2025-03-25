@@ -6,13 +6,15 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Property, Contact
 from django.contrib.auth.decorators import login_required
-from .models import Property, Booking
+from .models import Property, Booking 
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from datetime import datetime  # ✅ Import datetime
 from django.shortcuts import render
 import json
 from .models import Payment
+from django.shortcuts import render
+
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -70,6 +72,14 @@ def post_property(request):
         return redirect('property_list')
 
     return render(request, 'properties/post_property.html')
+
+
+# def property_list(request):
+#     properties = Property.objects.all().annotate(
+#         reviews_count=Count('reviews'),
+#         rating=Avg('reviews__rating')
+#     )
+#     return render(request, "property_list.html", {"properties": properties})
 
 
 # sign-in and sign-up code
@@ -241,77 +251,44 @@ def payment_view(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)  # Get booking details
     return render(request, 'properties/payment.html', {'booking': booking})
 
-# @login_required
-# def process_payment(request):
-#     if request.method == "POST":
-#         try:
-#             data = json.loads(request.body)
-
-#             # Retrieve user from the request
-#             user = request.user
-
-#             # Extract payment details
-#             card_name = data.get("card_name")
-#             card_number = data.get("card_number")
-#             expiry_date = data.get("expiry_date")
-#             cvv = data.get("cvv")
-#             amount = data.get("amount")
-
-#             # Save payment details to database
-#             payment = Payment.objects.create(
-#                 user=user,
-#                 card_name=card_name,
-#                 card_number=card_number,
-#                 expiry_date=expiry_date,
-#                 cvv=cvv,
-#                 amount=amount
-#             )
-
-#             return JsonResponse({"status": "success", "message": "Payment successful!", "payment_id": payment.id})
-
-#         except Exception as e:
-#             return JsonResponse({"status": "error", "message": str(e)})
-    
-#     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
-
-
-
-@login_required  # Only logged-in users can make payments
-@csrf_exempt  # Remove this later and use CSRF token
-def process_payment(request, booking_id):
+@login_required
+def process_payment(request, booking_id):  
     if request.method == "POST":
         try:
-            # 🔍 Print raw request body for debugging
-            print("🔍 Raw Request Body:", request.body)
+            data = json.loads(request.body)
 
-            # Decode and parse JSON data
-            data = json.loads(request.body.decode("utf-8"))
+            # Retrieve user from the request
+            user = request.user
 
-            # 🔍 Print parsed JSON data
-            print("✅ Parsed JSON Data:", data)
-
-            # Extract fields
+            # Extract payment details
             card_name = data.get("card_name")
             card_number = data.get("card_number")
             expiry_date = data.get("expiry_date")
             cvv = data.get("cvv")
             amount = data.get("amount")
 
-            # Validate required fields
-            if not all([card_name, card_number, expiry_date, cvv, amount]):
-                return JsonResponse({"status": "error", "message": "Missing required fields"}, status=400)
+            # Save payment details to database
+            payment = Payment.objects.create(
+                user=user,
+                card_name=card_name,
+                card_number=card_number,
+                expiry_date=expiry_date,
+                cvv=cvv,
+                amount=amount
+            )
 
-            # Payment success response
-            return JsonResponse({
-                "status": "success",
-                "message": f"Payment for booking {booking_id} processed successfully!"
-            })
+            return JsonResponse({"status": "success", "message": "Payment successful!", "payment_id": payment.id})
 
-        except json.JSONDecodeError:
-            print("❌ JSON Decode Error: Invalid JSON format!")
-            return JsonResponse({"status": "error", "message": "Invalid JSON format."}, status=400)
-
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+    
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
+
+
+
+
+
 
 def download_invoice(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
@@ -329,3 +306,21 @@ def download_invoice(request, booking_id):
 
 def booking_confirmation(request):
     return render(request, 'properties/booking_confirmation.html')  # Correct template name
+
+
+
+def redirect_about(request):
+    return redirect("about_us")  # Redirect to correct page
+
+def about_us(request):
+    return render(request, "properties/about_us.html")
+
+
+
+
+def index(request):
+    properties = Property.objects.all()  # Fetch all properties (both sale & rent)
+    return render(request, "properties/index.html", {"properties": properties})
+
+
+
