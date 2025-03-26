@@ -84,13 +84,16 @@ class Agreement(models.Model):
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link payment to a user
     card_name = models.CharField(max_length=255)
     card_number = models.CharField(max_length=16)  # Store securely in a real app!
     expiry_date = models.CharField(max_length=5)
     cvv = models.CharField(max_length=4)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True, blank=True)
+
 
     def __str__(self):
         return f"Payment {self.id} - {self.user.username} - ${self.amount}"

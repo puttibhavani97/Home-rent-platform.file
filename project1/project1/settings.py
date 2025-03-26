@@ -25,9 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 # STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# # Ensure STATICFILES_DIRS correctly points to 'properties/static'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'properties', 'static'),
+# ]
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Quick-start development settings - unsuitable for production

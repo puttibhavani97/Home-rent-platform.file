@@ -109,7 +109,7 @@
         <div class="payment-card">
             <h1>Complete Your Payment 💳</h1>
             <p>Enter your payment details below to finalize the booking.</p>
-            <form id="payment-form" method="POST" action="{% url 'process_payment' booking.id %}">
+            <form id="payment-form" method="post" action="{% url 'process_payment' booking.id %}">
                 {% csrf_token %}
 
                 <div class="form-group">
@@ -142,7 +142,11 @@
             </form>
 
             <a href="{% url 'index' %}" class="back-link">Cancel Payment</a>
-            <a href="{% url 'download_invoice' booking.id %}">Download Invoice</a>
+            {% if payment %}
+            <a href="{% url 'download_invoice' payment.id %}">Download Invoice</a>
+            {% else %}
+            <p>No payment record found.</p>
+            {% endif %}
 
         </div>
     </div>
@@ -196,7 +200,7 @@
                 .then(data => {
                     alert(data.message);
                     if (data.status === "success") {
-                        window.location.href = "/booking_confirmation"; // Redirect after success
+                        window.location.href ="index"; // Redirect after success
                     }
                 })
                 .catch(error => console.error("Error:", error));

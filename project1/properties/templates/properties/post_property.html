@@ -244,7 +244,9 @@
             margin-bottom: 5px;
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -253,7 +255,9 @@
             transition: all 0.3s ease;
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus,
+        select:focus,
+        textarea:focus {
             border-color: #5cb85c;
             outline: none;
             box-shadow: 0 0 8px rgba(92, 184, 92, 0.3);
@@ -329,36 +333,26 @@
                     <input type="file" name="image" accept="image/*" required>
                 </div>
 
-                <div>
-                    <label>Ratings:</label>
-                    <select name="rating" required>
-                        <option value="5">★★★★★</option>
-                        <option value="4">★★★★☆</option>
-                        <option value="3">★★★☆☆</option>
-                        <option value="2">★★☆☆☆</option>
-                        <option value="1">★☆☆☆☆</option>
-                    </select>
-                </div>
+                <label for="rating">Rating (1-5):</label>
+                <input type="number" name="rating" min="1" max="5" step="0.1" required>
 
+                <label for="reviews">Review:</label>
+                <textarea name="reviews" required></textarea>
                 <div>
-                    <label class="l">Reviews:</label>
-                    <textarea name="reviews" placeholder="Add your review here..."></textarea>
-                </div>
-
-                <div>
-                    <label  class="l" for="contact_name">Contact Name:</label>
+                    <label class="l" for="contact_name">Contact Name:</label>
                     <input type="text" id="contact_name" name="contact_name" required>
                 </div>
 
                 <div>
-                    <label  class="l" for="contact_phone">Phone Number:</label>
+                    <label class="l" for="contact_phone">Phone Number:</label>
                     <input type="tel" id="contact_phone" name="contact_phone" pattern="[0-9]{10}"
                         placeholder="Enter 10-digit phone number" required>
                 </div>
 
                 <div class="full-width">
-                    <label  class="l" for="contact_email">Email:</label>
-                    <input type="email" id="contact_email" name="contact_email" placeholder="example@email.com" required>
+                    <label class="l" for="contact_email">Email:</label>
+                    <input type="email" id="contact_email" name="contact_email" placeholder="example@email.com"
+                        required>
                 </div>
 
                 <div class="full-width">

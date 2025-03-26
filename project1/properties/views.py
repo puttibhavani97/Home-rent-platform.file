@@ -12,8 +12,10 @@ from reportlab.pdfgen import canvas
 from datetime import datetime  # ✅ Import datetime
 from django.shortcuts import render
 import json
-from .models import Payment
+from .models import Payment 
+from io import BytesIO
 from django.shortcuts import render
+from decimal import Decimal
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -30,18 +32,18 @@ def property_list(request):
         'buy_properties': buy_properties
     })
 
-def post_property(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        location = request.POST.get('location')
-        price = request.POST.get('price')
-        bedrooms = request.POST.get('bedrooms')
-        property_type = request.POST.get('property_type')
-        image = request.FILES.get('image')
+# def post_property(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         location = request.POST.get('location')
+#         price = request.POST.get('price')
+#         bedrooms = request.POST.get('bedrooms')
+#         property_type = request.POST.get('property_type')
+#         image = request.FILES.get('image')
 
-        contact_name = request.POST.get('contact_name')
-        contact_phone = request.POST.get('contact_phone')
-        contact_email = request.POST.get('contact_email')
+#         contact_name = request.POST.get('contact_name')
+#         contact_phone = request.POST.get('contact_phone')
+#         contact_email = request.POST.get('contact_email')
 
         # property_obj = Property.objects.create(
         #     name=name,
@@ -52,13 +54,77 @@ def post_property(request):
         #     image=image
         # )
 
-        property_instance =Property.objects.create(
+        # property_instance =Property.objects.create(
+        #     name=name,
+        #     location=location,
+        #     price=price,
+        #     bedrooms=bedrooms,
+        #     property_type=property_type,
+        #     image=image  # Make sure this matches your model field
+        # )
+
+        # Contact.objects.create(
+        #     property=property_instance,
+        #     name=contact_name,
+        #     phone=contact_phone,
+        #     email=contact_email
+        # )
+
+
+    #     return redirect('property_list')
+
+    # return render(request, 'properties/post_property.html')
+
+
+
+
+def post_property(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        location = request.POST.get('location')
+        price = request.POST.get('price')
+        bedrooms = request.POST.get('bedrooms')
+        property_type = request.POST.get('property_type')
+        image = request.FILES.get('image')
+
+        # ✅ Get Ratings & Reviews
+        rating = request.POST.get('rating')
+        reviews = request.POST.get('reviews')
+
+        # Convert rating to float if provided
+        rating = float(rating) if rating else 0.0
+
+        contact_name = request.POST.get('contact_name')
+        contact_phone = request.POST.get('contact_phone')
+        contact_email = request.POST.get('contact_email')
+
+
+        # ✅ Save Property with Ratings & Reviews
+
+
+        # property_obj = Property.objects.create(
+        #     name=name,
+        #     location=location,
+        #     price=price,
+        #     bedrooms=bedrooms,
+        #     property_type=property_type,
+        #     image=image,
+        #     rating=rating,  # Save rating
+        #     reviews=reviews,  # Save reviews
+        #  )
+
+
+
+        property_instance = Property.objects.create(
             name=name,
             location=location,
             price=price,
             bedrooms=bedrooms,
             property_type=property_type,
-            image=image  # Make sure this matches your model field
+            image=image,
+            rating=rating,  # Save rating
+            reviews=reviews,  # Save reviews
+            reviews_count=12 if reviews else 0  # First review if provided
         )
 
         Contact.objects.create(
@@ -66,12 +132,13 @@ def post_property(request):
             name=contact_name,
             phone=contact_phone,
             email=contact_email
-        )
+         )
 
 
         return redirect('property_list')
 
     return render(request, 'properties/post_property.html')
+
 
 
 # def property_list(request):
@@ -247,62 +314,129 @@ def agreement(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     return render(request, 'properties/agreement.html', {'booking': booking})
 
-def payment_view(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)  # Get booking details
-    return render(request, 'properties/payment.html', {'booking': booking})
+def payment(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # Retrieve payment record, if exists
+    payment = Payment.objects.filter(booking=booking).first()
+
+    return render(request, "properties/payment.html", {"booking": booking, "payment": payment})
+
 
 @login_required
-def process_payment(request, booking_id):  
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
+# def process_payment(request, booking_id):  
+#     if request.method == "POST":
+#         try:
+#             data = json.loads(request.body)
 
-            # Retrieve user from the request
-            user = request.user
+#             # Retrieve user from the request
+#             user = request.user
 
-            # Extract payment details
-            card_name = data.get("card_name")
-            card_number = data.get("card_number")
-            expiry_date = data.get("expiry_date")
-            cvv = data.get("cvv")
-            amount = data.get("amount")
+#             # Extract payment details
+#             card_name = data.get("card_name")
+#             card_number = data.get("card_number")
+#             expiry_date = data.get("expiry_date")
+#             cvv = data.get("cvv")
+#             amount = data.get("amount")
 
-            # Save payment details to database
-            payment = Payment.objects.create(
-                user=user,
-                card_name=card_name,
-                card_number=card_number,
-                expiry_date=expiry_date,
-                cvv=cvv,
-                amount=amount
-            )
+#             # Save payment details to database
+#             payment = Payment.objects.create(
+#                 user=user,
+#                 card_name=card_name,
+#                 card_number=card_number,
+#                 expiry_date=expiry_date,
+#                 cvv=cvv,
+#                 amount=amount
+#             )
 
-            return JsonResponse({"status": "success", "message": "Payment successful!", "payment_id": payment.id})
+#             return JsonResponse({"status": "success", "message": "Payment successful!", "payment_id": payment.id})
 
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)})
+#         except Exception as e:
+#             return JsonResponse({"status": "error", "message": str(e)})
     
-    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+#     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
 
 
-
-
-
-def download_invoice(request, booking_id):
+@login_required
+def process_payment(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="invoice_{booking.id}.pdf"'
+
+    if request.method == "POST":
+        card_name = request.POST.get("card_name")
+        card_number = request.POST.get("card_number")
+        expiry_date = request.POST.get("expiry_date")
+        cvv = request.POST.get("cvv")
+        amount = request.POST.get("amount")
+
+        if not (card_name and card_number and expiry_date and cvv and amount):
+            messages.error(request, "Please fill in all the fields.")
+            return redirect("payment", booking_id=booking_id)
+
+        try:
+            amount_decimal = Decimal(amount)  # Convert amount to Decimal
+        except ValueError:
+            messages.error(request, "Invalid amount format.")
+            return redirect("payment", booking_id=booking_id)
+
+        # Save payment record in the database
+        payment = Payment.objects.create(
+            booking=booking,
+            user=request.user,
+            amount=amount_decimal
+        )
+
+        messages.success(request, "Payment successful!")
+        return redirect("payment", booking_id=booking_id)  # Refresh to show updated records
+
+    return redirect("payment", booking_id=booking_id)
+
+
+
+
+
+# def download_invoice(request, booking_id):
+#     booking = get_object_or_404(payment, id=booking_id)
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = f'attachment; filename="invoice_{booking.id}.pdf"'
     
-    p = canvas.Canvas(response)
-    p.drawString(100, 800, f"Invoice for Booking ID: {booking.id}")
-    p.drawString(100, 780, f"Tenant: {booking.user.username}")
-    p.drawString(100, 760, f"Property: {booking.property.name}")  # Corrected field
-    p.drawString(100, 720, "Thank you for choosing House Rent Platform!")
+#     p = canvas.Canvas(response)
+#     p.drawString(100, 800, f"Invoice for Booking ID: {booking.id}")
+#     p.drawString(100, 780, f"Tenant: {booking.user.username}")
+#     p.drawString(100, 760, f"Property: {booking.property.name}")  # Corrected field
+#     p.drawString(100, 720, "Thank you for choosing House Rent Platform!")
+#     p.showPage()
+#     p.save()
+#     return response
+
+
+def download_invoice(request, payment_id):
+    # Fetch the payment record
+    payment = get_object_or_404(Payment, id=payment_id)
+
+    # Create a PDF response
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+
+    # Add invoice details
+    p.drawString(100, 750, "Invoice")
+    p.drawString(100, 730, f"Payment ID: {payment.id}")
+    p.drawString(100, 710, f"Amount: {payment.amount}")
+    p.drawString(100, 690, f"Payment Method: {payment.payment_method}")
+    p.drawString(100, 670, f"Payment Date: {payment.payment_date}")
+
+    # Finalize the PDF
     p.showPage()
     p.save()
+
+    buffer.seek(0)
+
+    # Return response as a downloadable PDF
+    response = HttpResponse(buffer, content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="invoice_{payment.id}.pdf"'
     return response
+
 
 def booking_confirmation(request):
     return render(request, 'properties/booking_confirmation.html')  # Correct template name
@@ -321,6 +455,39 @@ def about_us(request):
 def index(request):
     properties = Property.objects.all()  # Fetch all properties (both sale & rent)
     return render(request, "properties/index.html", {"properties": properties})
+
+
+
+
+# @login_required
+# def add_review(request, property_id):
+#     """Allows users to add reviews and ratings to a property"""
+#     property_obj = get_object_or_404(Property, id=property_id)
+
+#     if request.method == "POST":
+#         rating = int(request.POST.get("rating", 0))
+#         comment = request.POST.get("comment", "")
+
+#         if 1 <= rating <= 5:  # ✅ Valid rating check
+#             property_obj.update_rating(rating)  # Update rating using model function
+#             property_obj.reviews += f"\n{comment}"  # Append review
+#             property_obj.save()
+
+#             return redirect("property_detail", property_id=property_id)  # Redirect after review submit
+
+#     return render(request, "properties/add_review.html", {"property": property_obj})
+
+
+def investment_advice(request):
+    return render(request, 'properties/investment_advice.html')
+
+
+
+
+
+
+
+
 
 
 

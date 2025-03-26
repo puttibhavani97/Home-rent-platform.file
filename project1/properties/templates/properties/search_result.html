@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: darkblue;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .success-message {
+            color: green;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            input[type="text"],
+            button {
+                width: 100%;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Success Message After Clearing History -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li class="success-message">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Search Form for Quick Search -->
+        <form action="{% url 'search_properties' %}" method="get">
+            <input type="text" name="q" placeholder="Search properties..." value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <h2>Search Results for: "{{ query }}"</h2>
+
+        {% if properties %}
+        <ul>
+            {% for property in properties %}
+            <li><strong>{{ property.title }}</strong><br>{{ property.location }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No properties found.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Recently Searched</h3>
+        <ul>
+            {% for search in recent_searches %}
+            <li>{{ search }}</li>
+            {% empty %}
+            <li>No recent searches.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Clear Search History Link -->
+        <a href="{% url 'clear_search_history' %}">Clear Search History</a> |
+        <a href="/search/">Back to Search</a>
+
+    </div>
+
+</body>
+
+</html>
