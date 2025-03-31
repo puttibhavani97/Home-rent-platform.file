@@ -47,7 +47,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #fbf7ef;
+            background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
 
@@ -57,7 +57,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #0056a3;
+            background-color: #FFC107;
             padding: 10px 20px;
             color: white;
             display: flex;
@@ -95,7 +95,7 @@
 
         .btn-post {
             background: #fff;
-            color: #0056a3;
+            color: #004080;
             padding: 5px 10px;
             border-radius: 5px;
             font-weight: bold;
@@ -103,16 +103,17 @@
 
 
         /* Left Sidebar */
+
         .left-sidebar {
             position: fixed;
             top: 60px;
             left: 0;
             width: 70%;
             height: calc(100vh - 60px);
-            background-color: #fdf6e3;
+            background-color: #fef9f3;
             overflow-y: auto;
             padding: 10px;
-            border-right: 2px solid #ccc;
+            border-right: 2px solid #ddd;
         }
 
         .filters-container {
@@ -130,12 +131,31 @@
             margin-bottom: 15px;
         }
 
+        .form-label {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            /* Add gap between label and input/select */
+            display: block;
+            /* Ensures the label is on a new line */
+        }
+
+        .form-control {
+            margin-bottom: 10px;
+            /* Add gap between input fields */
+        }
+
         .applied-filters {
             background: #e9ecef;
             padding: 10px;
             border-radius: 5px;
+            margin-top: 10px;
             display: none;
+            font-size: 14px;
+            color: #333;
+            border: 1px solid #ccc;
         }
+
 
         /* Right Sidebar */
         .right-sidebar {
@@ -156,7 +176,7 @@
             left: 20%;
             width: 60%;
             height: calc(100vh - 60px);
-            background-color: #faf3e0;
+            background-color: #fffaf0;
             overflow-y: auto;
             padding: 20px;
         }
@@ -265,25 +285,31 @@
             /* Image & details stacked */
             align-items: center;
             padding: 20px;
-            background: #fff;
+            background: #007BFF;
             border-radius: 8px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .property-card.expanded img {
-            width: 90%;
-            /* Make image large */
-            max-width: 800px;
-            /* Set max width */
+            width: 100%;
+            max-width: 1200px;
+            /* Increased max width */
             height: auto;
-            /* Maintain aspect ratio */
-            max-height: 450px;
-            /* Prevent excessive height */
+            max-height: 700px;
+            /* Increased max height */
             object-fit: cover;
-            /* Crop & fit */
             border-radius: 8px;
             display: block;
+            transition: transform 0.3s ease-in-out;
+            /* Smooth transition */
         }
+
+        .property-card.expanded:hover img {
+            transform: scale(1.15);
+            /* More zoom effect */
+        }
+
+
 
         .property-card.expanded .card-body {
             width: 100%;
@@ -346,7 +372,7 @@
     <!-- Navigation Bar -->
     <div class="navbar">
         <div class="logo">
-            <img src="/media/images/logo.png" alt="Logo" class="logo-img">
+            <img src="/media/images/logo1.png" alt="Logo" class="logo-img">
             HOMEWANTERS
         </div>
 
@@ -390,88 +416,63 @@
     </div>
 
     <!-- Left Sidebar (Filters) -->
+
     <div class="left-sidebar">
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-3">
                     <div class="filters-container">
                         <h5>Filters</h5>
-                        <div class="applied-filters">
+
+                        <!-- Applied Filters -->
+                        <div class="applied-filters" id="applied-filters" style="display: none;">
                             <strong>Applied Filters:</strong>
                             <div id="selected-filters"></div>
                         </div>
 
+                        <!-- Property Type Filter -->
+                        <label for="propertyTypeFilter" class="form-label">Property Type</label>
+                        <select id="propertyTypeFilter" name="property_type" class="form-control">
+                            <option value="">All Properties</option>
+                            <option value="rent">Rent</option>
+                            <option value="buy">Buy</option>
+                        </select>
+
                         <!-- Budget Filter -->
                         <div class="filter-group">
-                            <label for="budget-range" class="form-label">Budget (Lacs)</label>
-                            <input type="range" class="form-range" id="budget-range" min="0" max="100" step="1">
-                            <p>Selected: <span id="budget-value">0</span> Lacs</p>
+                            <input type="number" id="budgetLacs" name="budget" class="form-control"
+                                placeholder="Budget in Lacs">
+                            <input type="number" id="budgetThousands" name="budget" class="form-control"
+                                placeholder="Budget in thousands">
                         </div>
 
                         <!-- Bedrooms Filter -->
                         <div class="filter-group">
-                            <label class="form-label">No. of Bedrooms</label>
-                            <select class="form-select" id="bedrooms">
-                                <option value="1 BHK">1 BHK</option>
-                                <option value="2 BHK">2 BHK</option>
-                                <option value="3 BHK">3 BHK</option>
-                                <option value="4 BHK">4 BHK</option>
-                                <option value="5 BHK">5+ BHK</option>
+                            <label for="bedroomsFilter" class="form-label">No. of Bedrooms</label>
+                            <select id="bedroomsFilter" name="bedrooms" class="form-control">
+                                <option value="">Select Bedrooms</option>
+                                <option value="1">1 BHK</option>
+                                <option value="2">2 BHK</option>
+                                <option value="3">3 BHK</option>
+                                <option value="4">4 BHK</option>
+                                <option value="5">5+ BHK</option>
                             </select>
                         </div>
 
-                        <!-- Property Type Filter -->
+                        <!-- Location Filter -->
                         <div class="filter-group">
-                            <label class="form-label"><b> Type of Property</b></label>
-                            <div>
-                                <input type="checkbox" id="independent-house" value="Independent House">
-                                <label for="independent-house"> Independent House/Villa</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="apartment" value="Apartment">
-                                <label for="apartment"> Residential Apartment</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="farm-house" value="Farm House">
-                                <label for="farm-house"> Farm House/Villa</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="servicedapartment" value="Serviced_Apartment">
-                                <label for="servicedapartment"> Serviced Apartment</label>
-                            </div>
-                        </div>
-
-
-                        <!-- Available Type Filter -->
-                        <div class="filter-group">
-                            <label class="form-label"><b> Available for</b></label>
-                            <div>
-                                <input type="checkbox" id="family" value="Family">
-                                <label for="family"> Family</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="singlewomen" value="SingleWomen">
-                                <label for="singlewomen"> Residential </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="singlemen" value="Single Men">
-                                <label for="singlemen"> Single Men</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="tenants" value="Tenants with company lease">
-                                <label for="tenants"> Tenants with company Lease</label>
-                            </div>
+                            <label for="locationFilter" class="form-label">Location</label>
+                            <input type="text" id="locationFilter" name="location" class="form-control"
+                                placeholder="Enter Location">
                         </div>
 
                         <!-- Apply Filters Button -->
                         <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-
 
     <!-- Main Content Area
     <div class="main-content">
@@ -681,11 +682,6 @@
                 <a href="#">Manage Tenants</a>
             </div>
 
-            <div class="menu-item">For Dealers / Builders</div>
-            <div class="submenu">
-                <a href="#">Partner with Us</a>
-                <a href="#">Builder Services</a>
-            </div>
             <div class="menu-item">
                 <a href="aboutus.html">About Us</a>
             </div>
@@ -693,40 +689,142 @@
 
     </div>
     <script>
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     document.getElementById("apply-filters").addEventListener("click", function () {
+        //         let selectedFilters = [];
+
+        //         // Get Property Type
+        //         let propertyType = document.getElementById("propertyTypeFilter").value;
+        //         if (propertyType) {
+        //             selectedFilters.push(`Property Type: ${propertyType.charAt(0).toUpperCase() + propertyType.slice(1)}`);
+        //         }
+
+        //         // Get Budget in Lacs and Thousands
+        //         let budgetLacs = document.getElementById("budgetLacs").value;
+        //         let budgetThousands = document.getElementById("budgetThousands").value;
+
+        //         if (budgetLacs) {
+        //             selectedFilters.push(`Budget: ${budgetLacs} Lacs`);
+        //         }
+        //         if (budgetThousands) {
+        //             selectedFilters.push(`Budget: ${budgetThousands} Thousands`);
+        //         }
+
+        //         // Get Bedrooms
+        //         let bedrooms = document.getElementById("bedroomsFilter").value;
+        //         if (bedrooms) {
+        //             selectedFilters.push(`Bedrooms: ${bedrooms} BHK`);
+        //         }
+
+        //         // Get Location
+        //         let location = document.getElementById("locationFilter").value;
+        //         if (location) {
+        //             selectedFilters.push(`Location: ${location}`);
+        //         }
+
+        //         // Display applied filters
+        //         let filterDisplay = document.getElementById("selected-filters");
+        //         let appliedFiltersDiv = document.getElementById("applied-filters");
+
+        //         if (selectedFilters.length > 0) {
+        //             filterDisplay.innerHTML = selectedFilters.join(", ");
+        //             appliedFiltersDiv.style.display = "block";
+        //         } else {
+        //             appliedFiltersDiv.style.display = "none";
+        //         }
+        //     });
+        // });
+
+
+
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("budget-range").addEventListener("input", function () {
-                document.getElementById("budget-value").textContent = this.value;
-            });
+            console.log("JavaScript Loaded");
 
             document.getElementById("apply-filters").addEventListener("click", function () {
+                let propertyTypeEl = document.getElementById("propertyTypeFilter");
+                let budgetLacsEl = document.getElementById("budgetLacs");
+                let budgetThousandsEl = document.getElementById("budgetThousands");
+                let bedroomsEl = document.getElementById("bedroomsFilter");
+                let locationEl = document.getElementById("locationFilter");
+
+                if (!propertyTypeEl || !budgetLacsEl || !budgetThousandsEl || !bedroomsEl || !locationEl) {
+                    console.error("One or more elements not found!");
+                    return;
+                }
+
+                let propertyType = propertyTypeEl.value;
+                let budgetLacs = parseFloat(budgetLacsEl.value) || 0;
+                let budgetThousands = parseFloat(budgetThousandsEl.value) || 0;
+                let bedrooms = bedroomsEl.value;
+                let location = locationEl.value.trim().toLowerCase();
+
+                let totalBudget = (budgetLacs * 100000) + (budgetThousands * 1000);
                 let selectedFilters = [];
+                if (budgetLacs) selectedFilters.push(`Budget: ${budgetLacs} Lacs`);
+                if (budgetThousands) selectedFilters.push(`Budget: ${budgetThousands} Thousands`);
 
-                // Get budget filter
-                let budget = document.getElementById("budget-range").value;
-                if (budget > 0) selectedFilters.push("Budget: " + budget + " Lacs");
+                console.log("Selected Filters:", { propertyType, totalBudget, bedrooms, location });
 
-                // Get bedroom filter
-                let bedrooms = document.getElementById("bedrooms").value;
-                selectedFilters.push("Bedrooms: " + bedrooms);
+                let allProperties = document.querySelectorAll(".property-card");
+                let found = false;
+                let matchedProperties = 0;
 
-                // Get property type filter
-                let checkboxes = document.querySelectorAll(".filter-group input[type='checkbox']:checked");
-                checkboxes.forEach(function (checkbox) {
-                    selectedFilters.push(checkbox.value);
+                allProperties.forEach(property => {
+                    let type = property.getAttribute("data-type");
+                    let priceText = property.querySelector(".card-text strong");
+                    if (!priceText) {
+                        console.warn("Price not found for property", property);
+                        return;
+                    }
+                    let price = parseInt(priceText.innerText.replace(/[^0-9]/g, "")) || 0;
+                    let propertyBedroomsMatch = property.querySelector(".card-text").innerText.match(/\d+/);
+                    let propertyBedrooms = propertyBedroomsMatch ? propertyBedroomsMatch[0] : "";
+                    let propertyLocationEl = property.querySelector(".card-body");
+                    if (!propertyLocationEl) {
+                        console.warn("Location not found for property", property);
+                        return;
+                    }
+                    let propertyLocation = propertyLocationEl.getAttribute("data-location").trim().toLowerCase();
+
+                    let matchesType = !propertyType || type === propertyType;
+                    let matchesBudget = totalBudget === 0 || price <= totalBudget;
+                    let matchesBedrooms = !bedrooms || bedrooms === propertyBedrooms;
+                    let matchesLocation = !location || propertyLocation.includes(location);
+
+                    let matchStatus = { matchesType, matchesBudget, matchesBedrooms, matchesLocation };
+                    console.log("Checking Property:", { type, price, propertyBedrooms, propertyLocation });
+                    console.log("Match Status:", matchStatus);
+
+                    if (matchesType && matchesBudget && matchesBedrooms && matchesLocation) {
+                        property.style.display = "block";
+                        found = true;
+                        matchedProperties++;
+                    } else {
+                        property.style.display = "none";
+                    }
                 });
 
-                // Display applied filters
-                let filterDisplay = document.getElementById("selected-filters");
-                let appliedFiltersDiv = document.querySelector(".applied-filters");
-
-                if (selectedFilters.length > 0) {
-                    filterDisplay.innerHTML = selectedFilters.join(", ");
-                    appliedFiltersDiv.style.display = "block";
-                } else {
-                    appliedFiltersDiv.style.display = "none";
+                console.log(`Total Matched Properties: ${matchedProperties}`);
+                let noResultsMsg = document.getElementById("no-results");
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement("p");
+                    noResultsMsg.id = "no-results";
+                    noResultsMsg.style.color = "red";
+                    noResultsMsg.style.fontWeight = "bold";
+                    noResultsMsg.innerText = "No properties found matching your filters.";
+                    document.querySelector(".main-content .container").appendChild(noResultsMsg);
                 }
+                noResultsMsg.style.display = found ? "none" : "block";
             });
         });
+
+
+
+
+
 
         //right slide                
         document.querySelectorAll('.menu-item').forEach(item => {
@@ -1127,23 +1225,45 @@
 
 
 
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("exploreBuyProperty").addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent page reload
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     document.getElementById("exploreBuyProperty").addEventListener("click", function (event) {
+        //         event.preventDefault(); // Prevent page reload
 
-                console.log("Buy Property clicked!"); // Debugging
+        //         console.log("Buy Property clicked!"); // Debugging
 
-                let allProperties = document.querySelectorAll(".property-card"); // Select all properties
+        //         let allProperties = document.querySelectorAll(".property-card"); // Select all properties
 
-                allProperties.forEach((property) => {
-                    if (property.getAttribute("data-type") === "buy") {
-                        property.style.display = "block"; // Show buy properties
-                    } else {
-                        property.style.display = "none"; // Hide rent properties
-                    }
-                });
-            });
-        });
+        //         allProperties.forEach((property) => {
+        //             if (property.getAttribute("data-type") === "buy") {
+        //                 property.style.display = "block"; // Show buy properties
+        //             } else {
+        //                 property.style.display = "none"; // Hide rent properties
+        //             }
+        //         });
+        //     });
+        // });
+
+
+
+        // function filterBuyProperties() {
+        //     let properties = document.querySelectorAll(".property");
+        //     properties.forEach((property) => {
+        //         if (property.getAttribute("data-type") !== "sale") {
+        //             property.classList.add("hidden"); // Hide rent properties
+        //         } else {
+        //             property.classList.remove("hidden"); // Show only buy properties
+        //         }
+        //     });
+        // }
+
+        // function showAllProperties() {
+        //     let properties = document.querySelectorAll(".property");
+        //     properties.forEach((property) => {
+        //         property.classList.remove("hidden"); // Show all properties again
+        //     });
+        // }
+
+
 
 
 

@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Property, Contact
 from django.contrib.auth.decorators import login_required
-from .models import Property, Booking 
+from .models import Property, Booking
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from datetime import datetime  # ✅ Import datetime
@@ -82,7 +82,9 @@ def post_property(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         location = request.POST.get('location')
-        price = request.POST.get('price')
+        budget_lacs = float(request.POST.get('budget_lacs', 0))  # Convert to float
+        budget_thousands = float(request.POST.get('budget_thousands', 0))  # Convert to float
+        price = (budget_lacs * 100000) + (budget_thousands * 1000)
         bedrooms = request.POST.get('bedrooms')
         property_type = request.POST.get('property_type')
         image = request.FILES.get('image')
@@ -124,7 +126,7 @@ def post_property(request):
             image=image,
             rating=rating,  # Save rating
             reviews=reviews,  # Save reviews
-            reviews_count=12 if reviews else 0  # First review if provided
+            reviews_count=len(reviews) if reviews else 0  # Count reviews dynamically
         )
 
         Contact.objects.create(
