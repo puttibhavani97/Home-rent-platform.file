@@ -97,3 +97,25 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment {self.id} - {self.user.username} - ${self.amount}"
+    
+
+    # rightside
+
+
+
+
+class Activity(models.Model):
+    ACTIVITY_CHOICES = [
+        ('searched', 'Recently Searched'),
+        ('viewed', 'Recently Viewed'),
+        ('shortlisted', 'Shortlisted'),
+        ('contacted', 'Contacted'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    property_name = models.CharField(max_length=255)
+    activity_type = models.CharField(max_length=20, choices=ACTIVITY_CHOICES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.property_name} ({self.activity_type})"

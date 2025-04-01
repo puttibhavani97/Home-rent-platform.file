@@ -57,7 +57,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #FFC107;
+            background-color: #2d0de3;
             padding: 10px 20px;
             color: white;
             display: flex;
@@ -403,13 +403,18 @@
                     {% else %}
                     <h2 class="login-btn" id="loginButton"><a href="{% url 'login' %}">LOGIN / REGISTER</a></h2>
                     {% endif %}
-                    <h3>My Activity</h3>
+                    <h2>My Activity</h2>
                     <ul>
-                        <li>Recently Searched</li>
-                        <li>Recently Viewed</li>
-                        <li>Shortlisted</li>
-                        <li>Contacted</li>
+                        <li onclick="loadActivity('recently_searched')">Recently Searched</li>
+                        <li onclick="loadActivity('recently_viewed')">Recently Viewed</li>
+                        <li onclick="loadActivity('shortlisted')">Shortlisted</li>
+                        <li onclick="loadActivity('contacted')">Contacted</li>
                     </ul>
+                    <div id="activity-data">
+                        <p>Select an option to see data.</p>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -1262,6 +1267,35 @@
         //         property.classList.remove("hidden"); // Show all properties again
         //     });
         // }
+
+
+
+
+        // my activity
+
+        function loadActivity(activityType) {
+            $.ajax({
+                url: `/get-activity/${activityType}/`,
+                method: "GET",
+                success: function (response) {
+                    let html = "<ul>";
+                    if (response.length > 0) {
+                        response.forEach(item => {
+                            html += `<li>${item.property_name}</li>`;
+                        });
+                    } else {
+                        html += "<li>No data available</li>";
+                    }
+                    html += "</ul>";
+                    $("#activity-data").html(html);
+                },
+                error: function () {
+                    $("#activity-data").html("<p>Error fetching data</p>");
+                }
+            });
+        }
+
+
 
 
 

@@ -35,9 +35,9 @@ urlpatterns = [
     path('investment-advice/', views.investment_advice, name='investment_advice'),
 
     
+]
 
-] 
-   
-#     
+
+    
 
 

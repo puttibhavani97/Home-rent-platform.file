@@ -15,7 +15,7 @@ import json
 from .models import Payment 
 from io import BytesIO
 from django.shortcuts import render
-from decimal import Decimal
+from decimal import Decimal 
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -482,6 +482,8 @@ def index(request):
 
 def investment_advice(request):
     return render(request, 'properties/investment_advice.html')
+
+
 
 
 
