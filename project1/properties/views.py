@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Property, Contact
 from django.contrib.auth.decorators import login_required
-from .models import Property, Booking
+from .models import Property, Booking ,Payment
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from datetime import datetime  # ✅ Import datetime
@@ -16,7 +16,7 @@ from .models import Payment
 from io import BytesIO
 from django.shortcuts import render
 from decimal import Decimal 
-
+from django.utils.timezone import localtime
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -325,38 +325,6 @@ def payment(request, booking_id):
     return render(request, "properties/payment.html", {"booking": booking, "payment": payment})
 
 
-@login_required
-# def process_payment(request, booking_id):  
-#     if request.method == "POST":
-#         try:
-#             data = json.loads(request.body)
-
-#             # Retrieve user from the request
-#             user = request.user
-
-#             # Extract payment details
-#             card_name = data.get("card_name")
-#             card_number = data.get("card_number")
-#             expiry_date = data.get("expiry_date")
-#             cvv = data.get("cvv")
-#             amount = data.get("amount")
-
-#             # Save payment details to database
-#             payment = Payment.objects.create(
-#                 user=user,
-#                 card_name=card_name,
-#                 card_number=card_number,
-#                 expiry_date=expiry_date,
-#                 cvv=cvv,
-#                 amount=amount
-#             )
-
-#             return JsonResponse({"status": "success", "message": "Payment successful!", "payment_id": payment.id})
-
-#         except Exception as e:
-#             return JsonResponse({"status": "error", "message": str(e)})
-    
-#     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
 
@@ -371,73 +339,67 @@ def process_payment(request, booking_id):
         expiry_date = request.POST.get("expiry_date")
         cvv = request.POST.get("cvv")
         amount = request.POST.get("amount")
+        
 
         if not (card_name and card_number and expiry_date and cvv and amount):
             messages.error(request, "Please fill in all the fields.")
             return redirect("payment", booking_id=booking_id)
-
         try:
-            amount_decimal = Decimal(amount)  # Convert amount to Decimal
-        except ValueError:
+            amount_decimal = Decimal(float(amount))  # Convert safely
+        except (ValueError, TypeError):
             messages.error(request, "Invalid amount format.")
             return redirect("payment", booking_id=booking_id)
 
+
         # Save payment record in the database
         payment = Payment.objects.create(
-            booking=booking,
-            user=request.user,
-            amount=amount_decimal
-        )
+        booking=booking,
+        user=request.user,
+        amount=amount_decimal,
+        card_name=card_name,
+        card_number=card_number,  # Storing insecurely, not ideal!
+        expiry_date=expiry_date,
+        cvv=cvv,
+        
+)
 
         messages.success(request, "Payment successful!")
-        return redirect("payment", booking_id=booking_id)  # Refresh to show updated records
+        return redirect("payment", booking_id=booking_id)  # ✅ Reload payment page with updated data
 
-    return redirect("payment", booking_id=booking_id)
-
-
+    return render(request, 'payment.html', {'booking': booking})
 
 
 
-# def download_invoice(request, booking_id):
-#     booking = get_object_or_404(payment, id=booking_id)
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = f'attachment; filename="invoice_{booking.id}.pdf"'
-    
-#     p = canvas.Canvas(response)
-#     p.drawString(100, 800, f"Invoice for Booking ID: {booking.id}")
-#     p.drawString(100, 780, f"Tenant: {booking.user.username}")
-#     p.drawString(100, 760, f"Property: {booking.property.name}")  # Corrected field
-#     p.drawString(100, 720, "Thank you for choosing House Rent Platform!")
-#     p.showPage()
-#     p.save()
-#     return response
+
 
 
 def download_invoice(request, payment_id):
-    # Fetch the payment record
     payment = get_object_or_404(Payment, id=payment_id)
 
-    # Create a PDF response
     buffer = BytesIO()
     p = canvas.Canvas(buffer)
 
-    # Add invoice details
-    p.drawString(100, 750, "Invoice")
-    p.drawString(100, 730, f"Payment ID: {payment.id}")
-    p.drawString(100, 710, f"Amount: {payment.amount}")
-    p.drawString(100, 690, f"Payment Method: {payment.payment_method}")
-    p.drawString(100, 670, f"Payment Date: {payment.payment_date}")
+    # Format invoice better
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(200, 800, "INVOICE")
 
-    # Finalize the PDF
+    p.setFont("Helvetica", 12)
+    p.drawString(100, 750, f"Payment ID: {payment.id}")
+    p.drawString(100, 730, f"User: {payment.user.username}")
+    p.drawString(100, 710, f"Amount: ${payment.amount}")
+    p.drawString(100, 690, f"Payment Date: {localtime(payment.payment_date).strftime('%Y-%m-%d %H:%M')}")
+
+    # Finalize
     p.showPage()
     p.save()
-
     buffer.seek(0)
 
-    # Return response as a downloadable PDF
     response = HttpResponse(buffer, content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="invoice_{payment.id}.pdf"'
     return response
+
+
+
 
 
 def booking_confirmation(request):
