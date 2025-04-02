@@ -446,74 +446,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Main Content Area
-    <div class="main-content">
-        Rent Listings
-        <div class="container">
-            <h4>Properties for Rent</h4>
-            <div class="row">
-                {% for property in rent_properties %}
-                <div class="col-md-12">
-                    <div class="card mb-3">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{{ property.image_url }}" class="img-fluid rounded" alt="{{ property.name }}">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ property.name }}</h5>
-                                    <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
-                                    <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
-                                    <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)</p>
-                                    <p><i class='fas fa-map-marker-alt'></i>{{ property.location }}</p>
-                                    <button class="btn btn-primary">Book Now</button>
-                                    <button class="btn btn-outline-primary">Contact</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-    
-            <h4>Properties for Buy</h4>
-            <div class="row">
-                {% for property in buy_properties %}
-                <div class="col-md-12">
-                    <div class="card mb-3">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{{ property.image_url }}" class="img-fluid rounded" alt="{{ property.name }}">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ property.name }}</h5>
-                                    <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
-                                    <p class="card-text"><strong>₹{{ property.price }}</strong></p>
-                                    <p class="rating">⭐ {{ property.rating }} ({{ property.reviews_count }} Reviews)</p>
-                                    <p><i class='fas fa-map-marker-alt'></i>{{ property.location }}</p>
-                                    <button class="btn btn-primary">Buy Now</button>
-                                    <button class="btn btn-outline-primary">Contact</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
- -->
-
-
-
-
-
-
-
-
     <!-- Main Content Area -->
     <div class="main-content">
         <!-- Rent Listings -->
@@ -662,57 +594,6 @@
 
     </div>
     <script>
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     document.getElementById("apply-filters").addEventListener("click", function () {
-        //         let selectedFilters = [];
-
-        //         // Get Property Type
-        //         let propertyType = document.getElementById("propertyTypeFilter").value;
-        //         if (propertyType) {
-        //             selectedFilters.push(`Property Type: ${propertyType.charAt(0).toUpperCase() + propertyType.slice(1)}`);
-        //         }
-
-        //         // Get Budget in Lacs and Thousands
-        //         let budgetLacs = document.getElementById("budgetLacs").value;
-        //         let budgetThousands = document.getElementById("budgetThousands").value;
-
-        //         if (budgetLacs) {
-        //             selectedFilters.push(`Budget: ${budgetLacs} Lacs`);
-        //         }
-        //         if (budgetThousands) {
-        //             selectedFilters.push(`Budget: ${budgetThousands} Thousands`);
-        //         }
-
-        //         // Get Bedrooms
-        //         let bedrooms = document.getElementById("bedroomsFilter").value;
-        //         if (bedrooms) {
-        //             selectedFilters.push(`Bedrooms: ${bedrooms} BHK`);
-        //         }
-
-        //         // Get Location
-        //         let location = document.getElementById("locationFilter").value;
-        //         if (location) {
-        //             selectedFilters.push(`Location: ${location}`);
-        //         }
-
-        //         // Display applied filters
-        //         let filterDisplay = document.getElementById("selected-filters");
-        //         let appliedFiltersDiv = document.getElementById("applied-filters");
-
-        //         if (selectedFilters.length > 0) {
-        //             filterDisplay.innerHTML = selectedFilters.join(", ");
-        //             appliedFiltersDiv.style.display = "block";
-        //         } else {
-        //             appliedFiltersDiv.style.display = "none";
-        //         }
-        //     });
-        // });
-
-
-
-
-
-
         document.addEventListener("DOMContentLoaded", function () {
             console.log("JavaScript Loaded");
 
@@ -822,25 +703,6 @@
                 }
             });
         });
-
-
-        // function toggleListings() {
-        // const propertyType = document.getElementById('propertyType').value;
-        // if (propertyType === 'rent') {
-        // document.getElementById('rent-list').classList.remove('hidden');
-        // document.getElementById('buy-list').classList.add('hidden');
-        // } else {
-        // document.getElementById('buy-list').classList.remove('hidden');
-        // document.getElementById('rent-list').classList.add('hidden');
-        // }
-        // }
-
-        // changing the rent to buy script code
-        // function toggleListings() {
-        //     const propertyType = document.getElementById('propertyType').value.toLowerCase();
-        //     document.getElementById('rent-list').classList.toggle('hidden', propertyType !== 'rent');
-        //     document.getElementById('buy-list').classList.toggle('hidden', propertyType !== 'buy');
-        // }
 
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -980,63 +842,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('propertyType').addEventListener('change', toggleListings);
         });
-
-
-
-
-
-        // <!-- JavaScript to handle dynamic property display -->
-
-        // to view property//
-
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     document.querySelectorAll(".view-property").forEach((button) => {
-        //         button.addEventListener("click", function (event) {
-        //             event.stopPropagation();
-        //             let propertyId = this.getAttribute("data-id");
-        //             showProperty(propertyId);
-        //         });
-        //     });
-        // });
-
-        // function showProperty(propertyId) {
-        //     // Hide all property cards
-        //     document.querySelectorAll(".property-card").forEach((card) => {
-        //         card.style.display = "none";
-        //     });
-
-        //     // Show only the selected property card
-        //     let selectedProperty = document.querySelector(`[data-id='${propertyId}']`);
-        //     if (selectedProperty) {
-        //         selectedProperty.style.display = "block";
-        //         selectedProperty.classList.add("expanded"); // Add class for styling
-        //     }
-
-        //     // Remove existing back button
-        //     let existingBackButton = document.getElementById("backToList");
-        //     if (existingBackButton) {
-        //         existingBackButton.remove();
-        //     }
-
-        //     // Add "Back to List" button
-        //     const backButton = document.createElement("button");
-        //     backButton.textContent = "Back to List";
-        //     backButton.id = "backToList";
-        //     backButton.className = "btn btn-secondary";
-        //     backButton.style.marginTop = "10px";
-        //     backButton.addEventListener("click", function () {
-        //         document.querySelectorAll(".property-card").forEach((card) => {
-        //             card.style.display = "block";
-        //             card.classList.remove("expanded"); // Reset style
-        //         });
-        //         this.remove();
-        //     });
-
-        //     selectedProperty.appendChild(backButton);
-        // }
-
-
-
 
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".view-property").forEach((button) => {
@@ -1185,60 +990,6 @@
                 loadBookNowPage(propertyId);
             });
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     document.getElementById("exploreBuyProperty").addEventListener("click", function (event) {
-        //         event.preventDefault(); // Prevent page reload
-
-        //         console.log("Buy Property clicked!"); // Debugging
-
-        //         let allProperties = document.querySelectorAll(".property-card"); // Select all properties
-
-        //         allProperties.forEach((property) => {
-        //             if (property.getAttribute("data-type") === "buy") {
-        //                 property.style.display = "block"; // Show buy properties
-        //             } else {
-        //                 property.style.display = "none"; // Hide rent properties
-        //             }
-        //         });
-        //     });
-        // });
-
-
-
-        // function filterBuyProperties() {
-        //     let properties = document.querySelectorAll(".property");
-        //     properties.forEach((property) => {
-        //         if (property.getAttribute("data-type") !== "sale") {
-        //             property.classList.add("hidden"); // Hide rent properties
-        //         } else {
-        //             property.classList.remove("hidden"); // Show only buy properties
-        //         }
-        //     });
-        // }
-
-        // function showAllProperties() {
-        //     let properties = document.querySelectorAll(".property");
-        //     properties.forEach((property) => {
-        //         property.classList.remove("hidden"); // Show all properties again
-        //     });
-        // }
-
-
-
-
         // my activity
 
         function loadActivity(activityType) {
