@@ -15,6 +15,15 @@ A complete web application that allows users to rent or buy residential properti
 
 ---
 
+## Property Module
+- Add property
+- Manage property details
+- Manage property rating
+- Location
+- Add budget
+
+---
+
 ##  Search Module
 
 - Users can search for properties using filters:
